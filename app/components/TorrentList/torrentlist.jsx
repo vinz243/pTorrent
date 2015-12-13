@@ -50,15 +50,15 @@ const TorrentList = React.createClass({
                                                                 boxShadow: '0px -1px #EEE inset'}}>
         <Tab label='All'>
           <List subheader="Downloading">
-            <TorrentItem torrentName="Game.Of.Thrones.Season.05.Complete.1080p" status="downloading" />
+            <TorrentItem torrentName="Ubuntu-15.10-desktop-amd64.iso" status="downloading" />
           </List>
           <List subheader="Seeding">
-            <TorrentItem torrentName="Game.Of.Thrones.Season.04.Complete-720p" status="seeding" />
-            <TorrentItem torrentName="Game.Of.Thrones.Season.03.Complete-1080p" status="seeding" />
+            <TorrentItem torrentName="ElementaryOS-freya-i386.iso" status="seeding" />
+            <TorrentItem torrentName="LinuxMint-17-cinnamon-64bit-v2.iso" status="seeding" />
           </List>
           <List subheader="Done">
-            <TorrentItem torrentName="Game.Of.Thrones.Season.02.Complete.720p" status="done" />
-            <TorrentItem torrentName="Game.Of.Thrones.Season.01.Complete-1080p" status="done" />
+            <TorrentItem torrentName="Debian-8.2.0-amd64-CD-8.iso" status="done" />
+            <TorrentItem torrentName="Fedora-Live-Cinnamon-x86_64-23.iso" status="done" />
           </List>  
         </Tab>
         <Tab label='Games' ><small>Secondary content</small></Tab>

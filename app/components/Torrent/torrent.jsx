@@ -4,7 +4,7 @@ import style from './style.scss'
 
 import ListItem from 'material-ui/lib/lists/list-item';
 import Avatar from 'material-ui/lib/avatar';
-import Colors from 'material-ui/lib/styles';
+import Colors from 'material-ui/lib/styles/colors';
 import LinearProgress from 'material-ui/lib/linear-progress';
 import FontIcon from 'material-ui/lib/font-icon';
   
@@ -15,7 +15,7 @@ const TorrentItem = React.createClass({
 		return (
        <ListItem
          leftAvatar={<Avatar icon={this.props.status == 'downloading' ? 
-              <FontIcon className="material-icons" backgroundColor={Colors.lightGreenA700}>cloud_download</FontIcon> 
+              <FontIcon className="material-icons" >cloud_download</FontIcon> 
               : (this.props.status != 'seeding' ?
                 <FontIcon className="material-icons">cloud_done</FontIcon>
                 : <FontIcon className="material-icons">cloud_upload</FontIcon>

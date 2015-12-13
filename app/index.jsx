@@ -5,10 +5,10 @@ import ReactDOM from 'react-dom';
 
 import TitleBar from './components/TitleBar/titlebar';
 import TorrentList from './components/TorrentList/torrentlist';
-
+import TorrentActionBar from './components/TorrentActionBar';
 import FontIcon from 'material-ui/lib/font-icon';
 import {TextField, Card, CardText} from 'material-ui/lib';
-
+import Colors from 'material-ui/lib/styles/colors'
 import style from './style';
 
 
@@ -18,9 +18,12 @@ ReactDOM.render((
  	 	<section className={style.content}>
  	 		<div className={style.topContainer}>
  	 		</div>
- 	 		<Card className={style.torrents}>
-      			<TorrentList />
-  			</Card>
+ 	 		<div className={style.torrents}>
+ 	 			<TorrentActionBar />
+ 	 			<Card >
+      				<TorrentList />
+  				</Card>
+  			</div>
     	</section>
 
     </div>
