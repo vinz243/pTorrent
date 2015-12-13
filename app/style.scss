@@ -3,3 +3,15 @@
 .content {
   padding: $unit;
 }
+.torrents {
+	margin: 192px 64px 32px auto;
+	width: 64%;
+}
+.topContainer {
+	background-color: #0097a7;
+	width: 110%;
+	margin-left: -50px;
+	height: 384px;
+	z-index: -999;
+	position: absolute;
+}

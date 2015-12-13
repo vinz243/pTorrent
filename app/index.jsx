@@ -1,21 +1,27 @@
 // You can also include here commons if you want with import 'react-toolbox/lib/commons';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppBar from 'material-ui/lib/app-bar';
+
+
+import TitleBar from './components/TitleBar/titlebar';
 import TorrentList from './components/TorrentList/torrentlist';
+
+import FontIcon from 'material-ui/lib/font-icon';
+import {TextField, Card, CardText} from 'material-ui/lib';
+
 import style from './style';
+
 
 ReactDOM.render((
 	<div>
- 	 	<AppBar
-  			title="pTorrent"
-  			iconClassNameRight="muidocs-icon-navigation-expand-more" />
+ 	 	<TitleBar />
  	 	<section className={style.content}>
- 	 	
- 	 	
-      		<div id="torrents" class="torrents-list">
+ 	 		<div className={style.topContainer}>
+ 	 		</div>
+ 	 		<Card className={style.torrents}>
       			<TorrentList />
-  			</div>
+  			</Card>
     	</section>
+
     </div>
 ), document.getElementById('app'));
