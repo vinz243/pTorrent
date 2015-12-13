@@ -1,0 +1,74 @@
+{
+  "name": "react-toolbox-example",
+  "version": "0.11.4",
+  "description": "A set of complementary tools to ReactJS.",
+  "author": "React Toolbox Team (http://github.com/react-toolbox)",
+  "contributors": [
+    {
+      "name": "Javi Jimenez Villar",
+      "url": "http://soyjavi.com/",
+      "email": "javi.jimenez.villar@gmail.com"
+    },
+    {
+      "name": "Javi Velasco Arjona",
+      "url": "http://javivelasco.com/",
+      "email": "javier.velasco86@gmail.com"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/react-toolbox/react-toolbox/issues",
+    "email": "issues@react-toolbox.com"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "material design",
+    "toolbox",
+    "components"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "*",
+    "babel-core": "*",
+    "babel-eslint": "*",
+    "babel-loader": "*",
+    "babel-plugin-react-transform": "*",
+    "babel-preset-es2015": "*",
+    "babel-preset-react": "*",
+    "babel-preset-stage-0": "^6.3.13",
+    "classnames": "^2.2.1",
+    "cross-env": "*",
+    "css-loader": "*",
+    "express": "*",
+    "extract-text-webpack-plugin": "*",
+    "file-loader": "^0.8.5",
+    "image-webpack-loader": "^1.6.2",
+    "node-sass": "*",
+    "normalize.css": "*",
+    "postcss-loader": "*",
+    "react": "*",
+    "react-addons-css-transition-group": "*",
+    "react-dom": "*",
+    "react-transform-catch-errors": "*",
+    "react-transform-hmr": "*",
+    "redbox-react": "*",
+    "sass-loader": "*",
+    "style-loader": "*",
+    "toolbox-loader": "*",
+    "webpack": "*",
+    "webpack-dev-middleware": "*",
+    "webpack-hot-middleware": "*"
+  },
+  "scripts": {
+    "start": "node ./server",
+    "build": "cross-env NODE_ENV=production UV_THREADPOOL_SIZE=100 webpack --config ./webpack.config",
+    "deploy": "gh-pages -d build"
+  },
+  "repository": "github:react-toolbox/react-toolbox-example",
+  "dependencies": {
+    "core-js": "^1.2.6",
+    "material-ui": "^0.13.4",
+    "react-if": "^1.1.2",
+    "react-tap-event-plugin": "^0.2.1"
+  }
+}
