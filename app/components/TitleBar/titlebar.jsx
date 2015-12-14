@@ -45,7 +45,7 @@ const TitleBar = React.createClass({
 				}}>
 					<div className={style.titleContainer}>
 						<span className={style.title}>
-							pTorrent
+							ρTorrent
 						</span>
 						<span className={style.searchBar}>
 							<span className={style.searchIcon}>

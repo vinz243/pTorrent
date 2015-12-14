@@ -69,6 +69,7 @@
     "chart.js": "^1.0.2",
     "core-js": "^1.2.6",
     "material-ui": "^0.13.4",
+    "react-chartist": "^0.10.1",
     "react-chartjs": "^0.6.0",
     "react-if": "^1.1.2",
     "react-tap-event-plugin": "^0.2.1"
