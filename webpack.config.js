@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+const ES6Classes
 module.exports = {
   context: __dirname,
   devtool: 'inline-source-map',
@@ -57,6 +57,7 @@ module.exports = {
   postcss: [autoprefixer],
   plugins: [
     new ExtractTextPlugin('react-toolbox.css', { allChunks: true }),
+
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({

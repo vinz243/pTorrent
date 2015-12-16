@@ -14,7 +14,7 @@ import {TextField, Card, CardText, Paper} from 'material-ui/lib';
 import Colors from 'material-ui/lib/styles/colors';
 
 import style from './style';
-
+import Client from './adapter/AbstractAdapter/aclient';
 
 ReactDOM.render((
 	<div>
