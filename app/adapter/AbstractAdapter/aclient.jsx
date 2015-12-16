@@ -2,7 +2,7 @@ import Torrent from './atorrent';
 // import Observable from '../../observable';
 
 
-class AbstractClient implements Observable  {
+class AbstractClient {
 
 	constructor(config) {
 		throw new TypeError('Class AbstractClient is abstract');

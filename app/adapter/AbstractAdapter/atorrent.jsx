@@ -1,7 +1,7 @@
 // import Observable from '../../observable';
 
 
-class AbstractTorrent implements Observable {
+class AbstractTorrent {
 
 	constructor(config) {
 		throw new TypeError("Class AbstractTorrent is abstract");
