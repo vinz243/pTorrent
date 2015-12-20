@@ -1,29 +1,16 @@
-const path = require('path');
-const express = require('express');
-const webpack = require('webpack');
-const config = require('./webpack.config');
+/*eslint no-console:0 */
+require('core-js/fn/object/assign');
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
+var config = require('./webpack.config');
+var open = require('open');
 
-const app = express();
-const compiler = webpack(config);
-
-app.use(require('webpack-dev-middleware')(compiler, {
-  publicPath: config.output.publicPath,
-  stats: {
-    colors: true
-  }
-}));
-
-app.use(require('webpack-hot-middleware')(compiler));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './www/index.html'));
-});
-
-app.listen(8080, '0.0.0.0', (err) => {
+new WebpackDevServer(webpack(config), config.devServer)
+.listen(config.port, 'localhost', function(err) {
   if (err) {
     console.log(err);
-    return;
   }
-
-  console.log('Listening at http://0.0.0.0:8080');
+  console.log('Listening at localhost:' + config.port);
+  console.log('Opening your system browser...');
+  open('http://localhost:' + config.port + '/webpack-dev-server/');
 });
