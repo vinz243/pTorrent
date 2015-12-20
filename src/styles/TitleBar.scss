@@ -1,3 +1,96 @@
-.titlebar-component {
-  border: 1px dashed #f00;
+
+.titleBar {
+    height: 56px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 22;
+    .titleContainer {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        // display: flex;
+        // will-change: top, left;
+        box-sizing: border-box;
+        line-height: 34px;
+
+        .titleBarActions {
+
+            float: right;
+            font-size: 19.5px;
+
+            .maximise {
+            font-size: 19.5px;
+                top: 7px;
+                margin-right: 3px;
+            }
+            .minimize {
+            font-size: 19.5px;
+                top: 5px;
+                color: #fff;
+
+                margin-right: 3px;
+            }
+            .close {
+            font-size: 19.5px;
+                top: 5px;
+
+            }
+        }
+
+
+        .title {
+            margin-left: 36px;
+            margin-right: 36px;
+            border-width: 0px;
+            cursor: pointer;
+            font-size: 1.5em;
+            height: 100%;
+            // position: absolute
+            display: inline-block;
+            color: #fff;
+            // margin-left: 50px;
+            font-size: 19.5px;
+            // display: flex;
+        }
+        .searchBar {
+    
+            background: rgba(255, 255, 255, 0.15) none repeat scroll 0% 0%;
+            box-sizing: border-box;
+            margin: auto 0px auto 140px;
+
+            width: 60%;
+            display: inline-block;
+    
+            .searchIcon {
+                display: inline-block;
+                height: 36px;
+                position: relative;
+                width: 72px;
+    
+                // width: 72px;
+                // position: relative;
+                padding-left: 24px;
+                // padding-right: 15px;
+                
+                top: 5px;
+                .material-icons {
+                    color: #fff;
+                    line-height: 36px;
+                }
+            }
+            .searchInput {
+                position: relative;
+                flex: 1 1 0%;
+                input {
+                    background-color: rgba(255, 255, 255, 0);
+                    color: #fff;
+                    border: none;
+                    border-color: transparent;
+                    font-size: 15.6px;
+                }
+            }
+        }    
+    }
 }
