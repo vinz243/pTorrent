@@ -1,23 +1,25 @@
-'use strict';
-
 import React from 'react';
 
-require('styles//TorrentActionBar.scss');
+import {RaisedButton, FontIcon} from 'material-ui/lib';
+import style from 'styles//TorrentActionBar.scss';
+import classNames from 'classnames';
 
-class TorrentActionBarComponent extends React.Component {
-  render() {
-    return (
-      <div className="torrentactionbar-component">
-        Please edit src/components///TorrentActionBarComponent.js to update this component!
-      </div>
-    );
-  }
-}
 
-TorrentActionBarComponent.displayName = 'TorrentActionBarComponent';
+const TorrentActionBar = React.createClass({
 
-// Uncomment properties you need
-// TorrentActionBarComponent.propTypes = {};
-// TorrentActionBarComponent.defaultProps = {};
+	render () {
+		let buttonClass = classNames("material-icons", style.button);
+		return (
+			<div className={style.torrentActionBar}>
+				<RaisedButton primary labelPosition="after" label="Pause all" style={{marginRight: "36px"}}>
+		 			<FontIcon className={buttonClass} color="#fff" >pause</FontIcon>
+				</RaisedButton>
+				<RaisedButton primary labelPosition="after" label="" style={{marginRight: "24px"}}>
+		 			<FontIcon className={buttonClass} style={{paddingLeft: "4px"}} color="#fff" >add</FontIcon>
+				</RaisedButton>
+			</div>
+		)
+	}
+});
 
-export default TorrentActionBarComponent;
+export default TorrentActionBar;
