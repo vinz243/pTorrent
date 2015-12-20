@@ -68,6 +68,7 @@
   },
   "repository": "github:react-toolbox/react-toolbox-example",
   "dependencies": {
+    "babel-polyfill": "^6.3.14",
     "chart.js": "^1.0.2",
     "core-js": "^1.2.6",
     "material-ui": "^0.13.4",

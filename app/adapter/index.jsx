@@ -1,7 +1,8 @@
-var ADAPTER = './MockupAdapter';
-Adapter = require(ADAPTER);
 
-export Client Adapter.client;
-export Tracker Adapter.Tracker;
-export Peer Adapter.Peer;
-export Torrent Adapter.Torrent
+var Adapter = require('./MockupAdapter');
+
+export default Adapter.Client;
+export var Client = Adapter.Client;
+export var Tracker = Adapter.Tracker;
+export var Peer = Adapter.Peer;
+export var Torrent = Adapter.Torrent

@@ -3,7 +3,7 @@
 
 class AbstractTorrent {
 
-	constructor(config) {
+	constructor(hash) {
 		throw new TypeError("Class AbstractTorrent is abstract");
 	}
 
@@ -30,6 +30,10 @@ class AbstractTorrent {
 
 	getInfo() {
 		throw new TypeError("Class AbstractTorrent is abstract");
+	}
+
+	static create(source, config) {
+
 	}
 }
 

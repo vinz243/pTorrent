@@ -1,3 +1,6 @@
+require("babel-polyfill");
+
+
 // You can also include here commons if you want with import 'react-toolbox/lib/commons';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -14,7 +17,13 @@ import {TextField, Card, CardText, Paper} from 'material-ui/lib';
 import Colors from 'material-ui/lib/styles/colors';
 
 import style from './style';
-import Client from './adapter/AbstractAdapter/aclient';
+import Client from './adapter';
+
+
+var client = new Client();
+client.addTorrent('6A20D919EF6203F8C0CC75D194674605A4B768F0').then((data) => {
+	console.log(data);
+});
 
 ReactDOM.render((
 	<div>
