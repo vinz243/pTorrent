@@ -5,6 +5,13 @@ const torrents = {
 		hash: '6A20D919EF6203F8C0CC75D194674605A4B768F0',
 		title: 'Ubuntu-15.10-desktop-amd64.iso',
 		size: 4.5366e12,
+		status: {
+			uploadSpeed: 4972800,
+			downloadSpeed: 28192128,
+			eta: 192,
+			progress: 45,
+			downloaded: 2.04147e12
+		}
 	}
 } 
 var index = []
@@ -51,7 +58,13 @@ class Torrent {
 		return this._title;
 	}
 	getStatus() {
-		throw new TypeError("Class AbstractTorrent is abstract");
+		let self = this;
+		return new Promise((resolve, reject) => {
+			if(!self._init) {
+				return reject(new TypeError('Torrent hasn\'t been initialized'));
+			}
+			resolve(torrents[self._hash].status);
+		});
 	}
 
 	getInfo() {

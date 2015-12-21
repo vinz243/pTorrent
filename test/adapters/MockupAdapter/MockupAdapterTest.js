@@ -76,14 +76,39 @@ const getTorrent = () => {
 }
 
 describe('Torrent', () => {
-  it('should not init() twice', (done) => {
+  var torrent;
+
+  beforeEach((done) => {
     getTorrent().then((data) => {
-      return data.init();
-    }).then(() => {
+      torrent = data;
+      done();
+    });
+  });
+
+  it('should not init() twice', (done) => {
+    torrent.init().then(() => {
       assert(false);
       done();
     }).catch((err) => {
       done();
     });
+  });
+
+  it('should not be able getStatus() of uninitialized torrent', (done) => {
+    (new Torrent('ABC')).getStatus().then(() => {
+      assert(false);
+    }).catch((err) => {
+      done();
+    });
+  });
+
+  it('should return status', (done) => {
+    torrent.getStatus().then((status) => {
+      status.uploadSpeed.should.be.a('number');
+      status.downloadSpeed.should.be.a('number');
+      status.eta.should.be.a('number');
+      status.progress.should.be.a('number');
+      done();
+    }).catch(done);
   });
 });
