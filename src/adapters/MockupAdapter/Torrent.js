@@ -12,15 +12,21 @@ var index = []
 class Torrent {
 
 	constructor(hash) {
+		this._init = false;
 		this._hash = hash;
 	}
 
 	init() {
 		var self = this;
+
 		return new Promise((resolve, reject) => {
 			let torrent = torrents[self._hash];
 			if(!torrent)
-				reject(new TypeError('Torrent '+self.hash+' is undefined'));
+				reject(new TypeError('Torrent '+self._hash+' is undefined'));
+			if(self._init)
+				reject(new TypeError('Torrent '+self._hash+' is already initialized'));
+			self._init = true;
+			self._title = torrent.title;
 			resolve({
 				hash: torrent.hash,
 				title: torrent.title,
@@ -41,7 +47,9 @@ class Torrent {
 	remove() {
 		throw new TypeError("Class AbstractTorrent is abstract");
 	}
-
+	getTitle() {
+		return this._title;
+	}
 	getStatus() {
 		throw new TypeError("Class AbstractTorrent is abstract");
 	}

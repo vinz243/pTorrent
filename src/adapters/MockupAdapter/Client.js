@@ -1,4 +1,4 @@
-import Torrent from './torrent'; 
+import Torrent from './Torrent'; 
 // import Observable from '../../observable';
 
 
@@ -26,7 +26,9 @@ class MockupClient {
 	getTorrent(hash) {
 		return new Promise((resolve, reject) => {
 			let torrent = new Torrent(hash);
-			return torrent.init();
+			torrent.init().then(() => {
+				resolve(torrent);
+			}).catch(reject);
 		});
 	}
 
