@@ -16,7 +16,7 @@ describe('TorrentBackgroundComponent', () => {
       component = createComponent(TorrentBackgroundComponent);
     });
 
-    it('should have its component name as default className', () => {
-      expect(component.props.className).to.equal('torrentbackground-component');
-    });
+    // it('should have its component name as default className', () => {
+    //   expect(component.props.className).to.equal('torrentbackground-component');
+    // });
 });

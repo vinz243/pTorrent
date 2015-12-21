@@ -16,7 +16,7 @@ describe('TorrentActionBarComponent', () => {
       component = createComponent(TorrentActionBarComponent);
     });
 
-    it('should have its component name as default className', () => {
-      expect(component.props.className).to.equal('torrentactionbar-component');
-    });
+    // it('should have its component name as default className', () => {
+    //   expect(component.props.className).to.equal('torrentactionbar-component');
+    // });
 });
