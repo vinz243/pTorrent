@@ -1,4 +1,5 @@
 // import Observable from '../../observable';
+import State from '../TorrentStateConstants.js';
 
 const torrents = {
 	'6A20D919EF6203F8C0CC75D194674605A4B768F0': {
@@ -21,19 +22,30 @@ class Torrent {
 	constructor(hash) {
 		this._init = false;
 		this._hash = hash;
+		this._state = State.UNINITIALIZED;
 	}
 
 	init() {
+
+		// use this in promise
 		var self = this;
 
 		return new Promise((resolve, reject) => {
 			let torrent = torrents[self._hash];
-			if(!torrent)
-				reject(new TypeError('Torrent '+self._hash+' is undefined'));
+
+			if(!torrent){
+				this._state = State.INVALID;
+				return reject(new TypeError('Torrent '+self._hash+' is undefined'));
+			}
+
+			// Do not init() twice
 			if(self._init)
-				reject(new TypeError('Torrent '+self._hash+' is already initialized'));
+				return reject(new TypeError('Torrent '+self._hash+' is already initialized'));
+
 			self._init = true;
 			self._title = torrent.title;
+			self._state = State.LOADING;
+
 			resolve({
 				hash: torrent.hash,
 				title: torrent.title,
@@ -56,6 +68,9 @@ class Torrent {
 	}
 	getTitle() {
 		return this._title;
+	}
+	getState() {
+		return this._state;
 	}
 	getStatus() {
 		let self = this;

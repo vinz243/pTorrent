@@ -9,7 +9,7 @@
 // import createComponent from 'helpers/shallowRenderHelper';
 
 // import Main from 'components/Main';
-import {Client, Torrent} from 'adapters/MockupAdapter';
+import {Client, Torrent, State} from 'adapters/MockupAdapter';
 import TorrentAPI from 'adapters/MockupAdapter/TorrentAPI';
 import assert from 'chai';
 
@@ -108,6 +108,19 @@ describe('Torrent', () => {
       status.downloadSpeed.should.be.a('number');
       status.eta.should.be.a('number');
       status.progress.should.be.a('number');
+      done();
+    }).catch(done);
+  });
+
+  it('should have UNINITIALIZED status before init()', () => {
+    let torrent = new Torrent('ABC');
+    torrent.getState().should.equal(State.UNINITIALIZED);
+  });
+
+  it('should have INVALID status after init() of invalid torrent', (done) => {
+    let torrent = new Torrent('ABC');
+    torrent.init().catch(() => {
+      torrent.getState().should.equal(State.INVALID);
       done();
     }).catch(done);
   });

@@ -1,8 +1,12 @@
 
 var Adapter = require('./MockupAdapter');
+import consts from './TorrentStateConstants';
 
-export default Adapter.Client;
-export var Client = Adapter.Client;
-export var Tracker = Adapter.Tracker;
-export var Peer = Adapter.Peer;
-export var Torrent = Adapter.Torrent
+
+export default {
+	Client: Adapter.Client,
+	Tracker: Adapter.Tracker,
+	Peer: Adapter.Peer,
+	Torrent: Adapter.Torrent,
+	State: consts
+};
