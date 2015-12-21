@@ -28,3 +28,7 @@ node_modules
 
 # Bower
 bower_components/
+
+pTorrent.sublime-project
+pTorrent.sublime-workspace
+
