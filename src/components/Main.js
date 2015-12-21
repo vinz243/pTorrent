@@ -6,7 +6,6 @@ import TitleBar from './TitleBarComponent';
 import TorrentList from './TorrentListComponent';
 import TorrentActionBar from './TorrentActionBarComponent';
 import TorrentBackground from './TorrentBackgroundComponent';
-import StatusWidget from './StatusWidgetComponent';
 import SideBar from './SideBarComponent';
 
 import {Paper, Card} from 'material-ui/lib';
@@ -30,7 +29,7 @@ class AppComponent extends React.Component {
 		 	 			<section className={style.content}>
 		 	 				<SideBar />
 		 	 				<div className={style.torrents}>
-		 	 					<StatusWidget />
+
 		 	 					<TorrentActionBar />
 		 	 					<Card >
 		    		  				<TorrentList />

@@ -5,12 +5,15 @@ import React from 'react';
 import style from 'styles//SideBar.scss';
 
 import {List, ListItem, FontIcon} from 'material-ui/lib';
+import StatusWidget from './StatusWidgetComponent.js';
 
 class SideBarComponent extends React.Component {
   
 	render () {
 		return (
+
       <section className={style.sideBar}>
+          <StatusWidget />
           <List>
 			     	<ListItem primaryText={<b>All torrents</b>}
               style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}
