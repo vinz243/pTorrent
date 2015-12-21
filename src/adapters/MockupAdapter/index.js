@@ -1,7 +1,7 @@
-import client from './client';
-import tracker from './tracker';
-import peer from './peer';
-import torrent from './torrent';
+import client from './Client';
+import tracker from './Tracker';
+import peer from './Peer';
+import torrent from './Torrent';
 
 export var Client = client;
 export var Tracker = tracker;

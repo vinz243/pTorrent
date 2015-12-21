@@ -32,3 +32,5 @@ bower_components/
 pTorrent.sublime-project
 pTorrent.sublime-workspace
 
+karma-*
+
