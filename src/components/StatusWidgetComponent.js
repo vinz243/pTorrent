@@ -13,13 +13,13 @@ class StatusWidgetComponent extends React.Component {
       <div className={style.statusWidget}>
 
   			<CardHeader
-  			  title="&#8595; 5.2 Mb/s" titleStyle={{
-  			  								fontSize: "19px",
-  			  								color: "#fff"
+  			  title='&#8595; 5.2 Mb/s' titleStyle={{
+  			  								fontSize: '19px',
+  			  								color: '#fff'
   			  							}}
-  			  subtitle="16 Mb/s &#8593; " subtitleStyle={{
-  			  												color: "#fff",
-  			  												marginTop: "8px"
+  			  subtitle='16 Mb/s &#8593; ' subtitleStyle={{
+  			  												color: '#fff',
+  			  												marginTop: '8px'
   			  											}}
   			  avatar={
 						<Avatar
@@ -27,7 +27,7 @@ class StatusWidgetComponent extends React.Component {
 			  					<FontIcon style={{
 			  						fontSize: '34px',
 			  						margin: '14px'
-			  						}} className="material-icons">cloud_download</FontIcon>
+			  						}} className='material-icons'>cloud_download</FontIcon>
 			  			}
 			  			backgroundColor={Colors.white}
 			  			color={Colors.lime800} />

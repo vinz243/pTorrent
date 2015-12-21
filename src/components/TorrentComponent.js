@@ -14,8 +14,8 @@ const TorrentItem = React.createClass({
 
 		return (
        <ListItem
-         leftAvatar={<Avatar icon={this.props.status == 'downloading' ? 
-              <FontIcon className="material-icons" >cloud_download</FontIcon> 
+         leftAvatar={<Avatar icon={this.props.status == 'downloading' ?
+              <FontIcon className="material-icons" >cloud_download</FontIcon>
               : (this.props.status != 'seeding' ?
                 <FontIcon className="material-icons">cloud_done</FontIcon>
                 : <FontIcon className="material-icons">cloud_upload</FontIcon>
@@ -26,7 +26,7 @@ const TorrentItem = React.createClass({
          primaryText={
           <div>{this.props.torrentName}
             <div className={style.rateIndicators} >
-                {this.props.status == 'downloading' ? 
+                {this.props.status == 'downloading' ?
                   <span className={style.downloadRateIndicator} >5.6 Mb/s</span> : null}
                 {this.props.status != 'done' ?
                   <span className={style.uploadRateIndicator} >1.3 Mb/s</span> : null}
@@ -36,10 +36,10 @@ const TorrentItem = React.createClass({
          secondaryText={
            <p>
             <span style={{color: Colors.darkBlack}}>
-            {this.props.status == 'downloading' ? "Downloading" : 
-              (this.props.status == 'seeding' ? "Seeding" : "Done")
+            {this.props.status == 'downloading' ? 'Downloading' :
+              (this.props.status == 'seeding' ? 'Seeding' : 'Done')
             }</span>
-            {this.props.status == 'downloading' ? 
+            {this.props.status == 'downloading' ?
               <span className={style.etaIndicator} >2 min 5s</span> : null}
 
             {this.props.status == 'downloading' ?
@@ -51,7 +51,7 @@ const TorrentItem = React.createClass({
          secondaryTextLines={2} />
       
 		)
-	},
+	}
 })
 
 export default TorrentItem;

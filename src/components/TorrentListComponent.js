@@ -1,8 +1,8 @@
 import React from 'react';
 // import {Tab, Tabs} from 'react-toolbox';
 import TorrentItem from './TorrentComponent';
-import style from 'styles//TorrentComponent.scss';
-import {List, ListDivider} from 'material-ui/lib/lists';
+import style from 'styles//Torrent.scss';
+import {List} from 'material-ui/lib/lists';
 import {Tab, Tabs} from 'material-ui/lib/tabs';
 
 import DefaultRawTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
@@ -11,17 +11,17 @@ import ThemeManager from 'material-ui/lib/styles/theme-manager';
 const TorrentList = React.createClass({
 
   contextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: React.PropTypes.object
   },
 
   //for passing default theme context to children
   childContextTypes: {
-    muiTheme: React.PropTypes.object,
+    muiTheme: React.PropTypes.object
   },
   
   getInitialState () {
     return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : ThemeManager.getMuiTheme(DefaultRawTheme),
+      muiTheme: this.context.muiTheme ? this.context.muiTheme : ThemeManager.getMuiTheme(DefaultRawTheme)
     };
   },
 
@@ -32,20 +32,20 @@ const TorrentList = React.createClass({
     newMuiTheme.tabs.textColor = 'rgba(0, 0, 0, 0.7)';
   
     this.setState({
-      muiTheme: newMuiTheme,
+      muiTheme: newMuiTheme
     });
   },
   
   //pass down updated theme to children
   getChildContext () {
     return {
-      muiTheme: this.state.muiTheme,
+      muiTheme: this.state.muiTheme
     };
   },
 
   render () {
     return (
-      <Tabs className={style.mainView} tabItemContainerStyle={{ backgroundColor: '#fff', 
+      <Tabs className={style.mainView} tabItemContainerStyle={{ backgroundColor: '#fff',
                                                                 color: '#000',
                                                                 boxShadow: '0px -1px #EEE inset'}}>
         <Tab label='All'>
@@ -59,7 +59,7 @@ const TorrentList = React.createClass({
           <List subheader="Done">
             <TorrentItem torrentName="Debian-8.2.0-amd64-CD-8.iso" status="done" />
             <TorrentItem torrentName="Fedora-Live-Cinnamon-x86_64-23.iso" status="done" />
-          </List>  
+          </List>
         </Tab>
         <Tab label='Games' ><small>Secondary content</small></Tab>
         <Tab label='Movies' ><small>Disabled content</small></Tab>

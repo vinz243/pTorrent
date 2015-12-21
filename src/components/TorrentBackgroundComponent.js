@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import ChartistGraph from 'react-chartist';
-import style from 'styles//TorrentBackground';
+import style from 'styles//TorrentBackground.scss';
 
 
 const rateData = {
@@ -12,18 +12,11 @@ const rateData = {
       13, 14, 12, 13.6, 13.8, 12.3, 11.1],
     upload: [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 6, 6, 4, 6, 7, 8, 7, 4, 6, 7, 8, 7, 6,
      6, 4,  2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 6, 7, 8, 7, 6, 6, 4, 6, 7, 8, 7, 4, 6, 7, 8, 7, 6,
-     6, 4, 6, 4, 6, 7, 8, 7,]
-};
-
-const options = {
-  seriesBarDistance: 10
+     6, 4, 6, 4, 6, 7, 8, 7]
 };
 
 class TorrentBackground extends React.Component {
-	processData (data, color) {
-	
-		return data;
-	}
+
 	render () {
 
 		//let downCols = this.processData(rateData.download, "#00acc1");
@@ -33,10 +26,10 @@ class TorrentBackground extends React.Component {
 		return (
 
  	 		<div className={style.topContainer}>
- 	 			{rateData.download.map(function(value, i) {
+ 	 			{rateData.download.map(function(value) {
 					return (<div className={style.chartColumn} style={{
-											backgroundColor: "#00acc1",
-											height: (value / max) * 80 + "%"
+											backgroundColor: '#00acc1',
+											height: (value / max) * 80 + '%'
 										}}> </div>)
  	 			})}
  	 		</div>

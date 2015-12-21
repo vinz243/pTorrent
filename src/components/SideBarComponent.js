@@ -2,9 +2,9 @@
 
 import React from 'react';
 
-import styles from 'styles//SideBar.scss';
+import style from 'styles//SideBar.scss';
 
-import {List, ListDivider, ListItem, FontIcon} from 'material-ui/lib';
+import {List, ListItem, FontIcon} from 'material-ui/lib';
 
 class SideBarComponent extends React.Component {
   
@@ -13,15 +13,15 @@ class SideBarComponent extends React.Component {
       <section className={style.sideBar}>
           <List>
 			     	<ListItem primaryText={<b>All torrents</b>}
-              style={{backgroundColor: "rgba(0, 0, 0, 0.2)"}}
+              style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}
               leftIcon={<FontIcon className="material-icons">list</FontIcon>} />
-            <ListItem primaryText={"Downloading"} 
+            <ListItem primaryText={"Downloading"}
               leftIcon={<FontIcon className="material-icons">file_download</FontIcon>} />
-            <ListItem primaryText={"Done"} 
+            <ListItem primaryText={"Done"}
               leftIcon={<FontIcon className="material-icons">done_all</FontIcon>} />
-            <ListItem primaryText={"Seeding"} 
+            <ListItem primaryText={"Seeding"}
               leftIcon={<FontIcon className="material-icons">file_upload</FontIcon>} />
-            <ListItem primaryText={"Inactive"} 
+            <ListItem primaryText={"Inactive"}
               leftIcon={<FontIcon className="material-icons">cloud_off</FontIcon>} />
           </List>
       </section>
