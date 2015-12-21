@@ -1,0 +1,23 @@
+
+// @import "./config";
+
+.rateIndicators {
+	float: right;	
+	.downloadRateIndicator {
+		font-weight: bold;
+		&::before {
+			content: '\2193';
+		}
+	}
+	.uploadRateIndicator {
+		margin-left: 25px;
+		color: #4F734F;
+		&::before {
+			content: '\2191';
+		}
+	}
+}
+
+.etaIndicator {
+	float: right;
+}
