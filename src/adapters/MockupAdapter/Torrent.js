@@ -130,7 +130,9 @@ class Torrent {
 			resolve(torrents[self._hash].status);
 		});
 	}
-
+	getHash() {
+		return this._hash;
+	}
 	getInfo() {
 		throw new TypeError("Class AbstractTorrent is abstract");
 	}

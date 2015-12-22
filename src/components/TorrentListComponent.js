@@ -7,8 +7,27 @@ import {Tab, Tabs} from 'material-ui/lib/tabs';
 
 import DefaultRawTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import Fluxxor from 'fluxxor';
+
+var FluxMixin = Fluxxor.FluxMixin(React),
+    StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+const downloading = (val) => {
+  return val.isDownloading();
+}
+const seeding = (val) => {
+  return val.isSeeding();
+}
+const done = (val) => {
+  return val.isDone();
+}
+
+
+
 
 const TorrentList = React.createClass({
+
+  mixins: [FluxMixin, StoreWatchMixin("TorrentStore")],
 
   contextTypes: {
     muiTheme: React.PropTypes.object
@@ -23,6 +42,18 @@ const TorrentList = React.createClass({
     return {
       muiTheme: this.context.muiTheme ? this.context.muiTheme : ThemeManager.getMuiTheme(DefaultRawTheme)
     };
+  },
+  getStateFromFlux () {
+    var flux = this.getFlux();
+    // Our entire state is made up of the TodoStore data. In a larger
+    // application, you will likely return data from multiple stores, e.g.:
+    //
+    //   return {
+    //     todoData: flux.store("TodoStore").getState(),
+    //     userData: flux.store("UserStore").getData(),
+    //     fooBarData: flux.store("FooBarStore").someMoreData()
+    //   };
+    return flux.store("TorrentStore").getState();
   },
 
   componentWillMount () {
@@ -50,15 +81,9 @@ const TorrentList = React.createClass({
                                                                 boxShadow: '0px -1px #EEE inset'}}>
         <Tab label='All'>
           <List subheader="Downloading">
-            <TorrentItem torrentName="Ubuntu-15.10-desktop-amd64.iso" status="downloading" />
-          </List>
-          <List subheader="Seeding">
-            <TorrentItem torrentName="ElementaryOS-freya-i386.iso" status="seeding" />
-            <TorrentItem torrentName="LinuxMint-17-cinnamon-64bit-v2.iso" status="seeding" />
-          </List>
-          <List subheader="Done">
-            <TorrentItem torrentName="Debian-8.2.0-amd64-CD-8.iso" status="done" />
-            <TorrentItem torrentName="Fedora-Live-Cinnamon-x86_64-23.iso" status="done" />
+            {Object.keys(this.state.torrents).map((hash) => {
+              return <TorrentItem torrent={this.state.torrents[hash]} />;
+            })}
           </List>
         </Tab>
         <Tab label='Games' ><small>Secondary content</small></Tab>

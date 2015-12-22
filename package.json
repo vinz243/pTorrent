@@ -68,6 +68,7 @@
     "classnames": "^2.2.1",
     "core-js": "^1.2.6",
     "flux": "^2.1.1",
+    "fluxxor": "^1.7.3",
     "lodash": "^3.10.1",
     "material-ui": "^0.14.0-rc2",
     "normalize.css": "^3.0.3",

@@ -2,6 +2,7 @@ import Torrent from './Torrent';
 // import Observable from '../../observable';
 
 
+var INSTANCE;
 class MockupClient {
 
 	constructor(config) {
@@ -14,11 +15,12 @@ class MockupClient {
 			var torrent;
 			var p = Torrent.create(torrentData, torrentOptions).then((t) =>{
 				torrent = t;
+			
 				return torrent.init();
 			}).then((hash) =>{
 	
 				this.torrents.push(torrent);
-				resolve(hash);
+				resolve(torrent);
 			}).catch(reject);
 				
 		})
@@ -50,5 +52,12 @@ class MockupClient {
 		throw new TypeError('Class AbstractClient is abstract');
 	}
 
+	static getClient() {
+		if(!INSTANCE)
+			INSTANCE = new MockupClient();
+		return INSTANCE;
+	}
+
 }
 export default MockupClient;
+

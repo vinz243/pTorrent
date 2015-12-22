@@ -8,15 +8,30 @@ import TorrentActionBar from './TorrentActionBarComponent';
 import TorrentBackground from './TorrentBackgroundComponent';
 import SideBar from './SideBarComponent';
 
+import Fluxxor from 'fluxxor';
+
 import {Paper, Card} from 'material-ui/lib';
 // import Colors from 'material-ui/lib/styles/colors';
 
 import style from 'styles//Main.scss';
 
+import TorrentStore from 'stores/TorrentStore';
+import TorrentActions from 'actions/TorrentActions';
 
-// import Client from './adapter';
 
-// let yeomanImage = require('../images/yeoman.png');
+var stores = {
+  TorrentStore: new TorrentStore()
+};
+
+var flux = new Fluxxor.Flux(stores, TorrentActions);
+
+flux.on("dispatch", function(type, payload) {
+  if (console && console.log) {
+    console.log("[Dispatch]", type, payload);
+  }
+});
+
+flux.actions.addTorrent('6A20D919EF6203F8C0CC75D194674605A4B768F0');
 
 class AppComponent extends React.Component {
   render() {
@@ -32,7 +47,7 @@ class AppComponent extends React.Component {
 
 		 	 					<TorrentActionBar />
 		 	 					<Card >
-		    		  				<TorrentList />
+		    		  				<TorrentList flux={flux} />
 		  						</Card>
 		  					</div>
 		    			</section>

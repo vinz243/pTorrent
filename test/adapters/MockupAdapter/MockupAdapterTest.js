@@ -48,9 +48,7 @@ describe('Client', () => {
 
   it('should be able to add torrent', (done) => {
     client.addTorrent(torrents[0].hash).then((data) => {
-      data.hash.should.equal(torrents[0].hash);
-      data.title.should.equal(torrents[0].title);
-      data.size.should.equal(torrents[0].size);
+      data.getHash().should.equal(torrents[0].hash);
       done()
     }).catch(done);
   });

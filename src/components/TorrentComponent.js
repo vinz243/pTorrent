@@ -9,41 +9,63 @@ import LinearProgress from 'material-ui/lib/linear-progress';
 import FontIcon from 'material-ui/lib/font-icon';
   
 const TorrentItem = React.createClass({
+  getIconFromState (state = this.props.torrent.getState()) {
+
+    switch(state) {
+      case 'DOWNLOADING':
+        return 'cloud_download';
+      case 'SEEDING':
+        return 'cloud_upload';
+      case 'DONE':
+        return 'cloud_done';
+      case 'CONNECTING':
+      case 'UNKNOWN':
+      case 'UNINITIALIZED':
+      case 'LOADING':
+        return 'cloud_queue';
+      case 'PAUSED':
+      case 'STOPPED':
+      case 'INVALID':
+      case 'ERRORED':
+      case 'REMOVED':
+      default: return 'cloud_off'
+    }
+  },
 
 	render () {
 
+
 		return (
        <ListItem
-         leftAvatar={<Avatar icon={this.props.status == 'downloading' ?
-              <FontIcon className="material-icons" >cloud_download</FontIcon>
-              : (this.props.status != 'seeding' ?
-                <FontIcon className="material-icons">cloud_done</FontIcon>
-                : <FontIcon className="material-icons">cloud_upload</FontIcon>
-                )
-
-         } />}
+         leftAvatar={
+            <Avatar icon={
+              <FontIcon className="material-icons">
+                {this.getIconFromState()}
+              </FontIcon>
+            } />}
          // rightIconButton={rightIconMenu}
          primaryText={
-          <div>{this.props.torrentName}
+          <div>{this.props.torrent.getTitle()}
             <div className={style.rateIndicators} >
-                {this.props.status == 'downloading' ?
+                {this.props.torrent.isDownloading() ?
                   <span className={style.downloadRateIndicator} >5.6 Mb/s</span> : null}
-                {this.props.status != 'done' ?
-                  <span className={style.uploadRateIndicator} >1.3 Mb/s</span> : null}
+                
+                  <span className={style.uploadRateIndicator} ></span> : null
             </div>
           </div>
         }
          secondaryText={
            <p>
             <span style={{color: Colors.darkBlack}}>
-            {this.props.status == 'downloading' ? 'Downloading' :
-              (this.props.status == 'seeding' ? 'Seeding' : 'Done')
+            {this.props.torrent.getState()[0] + this.props.torrent.getState().substring(1).toLowerCase()
             }</span>
-            {this.props.status == 'downloading' ?
+            {this.props.torrent.isDownloading ?
               <span className={style.etaIndicator} >2 min 5s</span> : null}
 
-            {this.props.status == 'downloading' ?
-                <LinearProgress mode="determinate" value={60} />
+            {this.props.torrent.isDownloading ?
+                <LinearProgress mode={
+                  (this.getIconFromState() === 'cloud_queue') ? 'indeterminate': 'determinate'
+                } value={60} color={"#4CAF50"} />
               : null
             }
            </p>
