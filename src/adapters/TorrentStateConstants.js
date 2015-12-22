@@ -2,7 +2,8 @@ export default {
 	
 	// When a torrent has been initialized and loaded, 
 	// And it is loading informations
-	// Typically in the case of a magnet 
+	// Typically in the case of a magnet
+	// Or after resuming torrents
 	CONNECTING: 'CONNECTING',
 
 	// When a torrent has been fully downloaded
@@ -36,5 +37,9 @@ export default {
 	UNINITIALIZED: 'UNINITIALIZED',
 
 	// Torrent client is loading info locally
-	LOADING: 'LOADING'
+	LOADING: 'LOADING',
+
+	// Torrent has just been removed
+	// Therefore should not appear anymore
+	REMOVED: 'REMOVED'
 };

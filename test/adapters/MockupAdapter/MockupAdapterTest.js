@@ -11,7 +11,7 @@
 // import Main from 'components/Main';
 import {Client, Torrent, State} from 'adapters/MockupAdapter';
 import TorrentAPI from 'adapters/MockupAdapter/TorrentAPI';
-import assert from 'chai';
+import {assert} from 'chai';
 
 
 const torrents = [{
@@ -123,5 +123,32 @@ describe('Torrent', () => {
       torrent.getState().should.equal(State.INVALID);
       done();
     }).catch(done);
+  });
+
+  it('should pause() and set PAUSED state', (done) => {
+    torrent.pause().then(() => {
+      torrent.getState().should.equal(State.PAUSED);
+      return torrent.resume();
+    }).then(() => {
+      torrent.getState().should.not.equal(State.PAUSED);
+      done();
+    }).catch(done);
+  });
+
+  it('should stop() and set STOPPED state', (done) => {
+    torrent.stop().then(() => {
+      torrent.getState().should.equal(State.STOPPED);
+      return torrent.resume();
+    }).then(() => {
+      torrent.getState().should.equal(State.CONNECTING);
+      done();
+    }).catch(done);
+  });
+
+  it('should remove() and set REMOVED state', (done) => {
+    torrent.remove().then(() => {
+      assert(torrent.isRemoved());
+      done();
+    })
   });
 });

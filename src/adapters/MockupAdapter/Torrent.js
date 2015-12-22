@@ -1,5 +1,7 @@
 // import Observable from '../../observable';
 import State from '../TorrentStateConstants.js';
+import MainUtils from 'utils/main';
+
 
 const torrents = {
 	'6A20D919EF6203F8C0CC75D194674605A4B768F0': {
@@ -14,8 +16,12 @@ const torrents = {
 			downloaded: 2.04147e12
 		}
 	}
-} 
-var index = []
+};
+
+var index = [];
+var UNINITIALIZED_ERROR = () => {
+	return new TypeError('Torrent hasn\'t been initialized')
+};
 
 class Torrent {
 
@@ -24,6 +30,7 @@ class Torrent {
 		this._hash = hash;
 		this._state = State.UNINITIALIZED;
 	}
+
 
 	init() {
 
@@ -53,18 +60,55 @@ class Torrent {
 			});
 		})
 	}
-
+	
 	pause() {
-		throw new TypeError("Class AbstractTorrent is abstract");
+		let self = this;
+		return new Promise((resolve, reject) => {
+
+			if(!self.init)
+				return reject(UNINITIALIZED_ERROR());
+
+			self._state = State.PAUSED;
+			resolve()
+		});
 	}
+
 	stop() {
-		throw new TypeError("Class AbstractTorrent is abstract");
+		let self = this;
+		return new Promise((resolve, reject) => {
+
+			if(!self.init)
+				return reject(UNINITIALIZED_ERROR());
+
+			self._state = State.STOPPED;
+			resolve();
+		});
 	}
+
 	resume() {
-		throw new TypeError("Class AbstractTorrent is abstract");
+		let self = this;
+		return new Promise((resolve, reject) => {
+			if(!self._init) {
+				return reject(UNINITIALIZED_ERROR());
+			}
+
+			self._state = State.CONNECTING;
+			resolve();
+
+		});
 	}
+
 	remove() {
-		throw new TypeError("Class AbstractTorrent is abstract");
+		let self = this;
+		return new Promise((resolve, reject) => {
+			if(!self._init) {
+				return reject(UNINITIALIZED_ERROR());
+			}
+			self.stop().then(() => {
+				self._state = State.REMOVED;
+				resolve();
+			});
+		});
 	}
 	getTitle() {
 		return this._title;
@@ -76,7 +120,7 @@ class Torrent {
 		let self = this;
 		return new Promise((resolve, reject) => {
 			if(!self._init) {
-				return reject(new TypeError('Torrent hasn\'t been initialized'));
+				return reject(UNINITIALIZED_ERROR());
 			}
 			resolve(torrents[self._hash].status);
 		});
@@ -95,5 +139,5 @@ class Torrent {
 		});
 	}
 }
-
+MainUtils.populateStateChecks(Torrent, State);
 export default Torrent;
