@@ -22,6 +22,9 @@ var index = [];
 var UNINITIALIZED_ERROR = () => {
 	return new TypeError('Torrent hasn\'t been initialized')
 };
+var INVALID_ERROR = () => {
+	return new TypeError('Torrent is invalid');
+}
 
 class Torrent {
 
@@ -30,7 +33,9 @@ class Torrent {
 		this._hash = hash;
 		this._state = State.UNINITIALIZED;
 	}
-
+	isValid() {
+		return this.isInitialized() && !this.isInvalid() && !this.isUnknown();
+	}
 
 	init() {
 
@@ -46,7 +51,7 @@ class Torrent {
 			}
 
 			// Do not init() twice
-			if(self._init)
+			if(this.isInitialized())
 				return reject(new TypeError('Torrent '+self._hash+' is already initialized'));
 
 			self._init = true;
@@ -65,8 +70,8 @@ class Torrent {
 		let self = this;
 		return new Promise((resolve, reject) => {
 
-			if(!self.init)
-				return reject(UNINITIALIZED_ERROR());
+			if(!this.isValid())
+				return reject(INVALID_ERROR());
 
 			self._state = State.PAUSED;
 			resolve()
@@ -77,8 +82,8 @@ class Torrent {
 		let self = this;
 		return new Promise((resolve, reject) => {
 
-			if(!self.init)
-				return reject(UNINITIALIZED_ERROR());
+			if(!this.isValid())
+				return reject(INVALID_ERROR());
 
 			self._state = State.STOPPED;
 			resolve();
@@ -88,8 +93,8 @@ class Torrent {
 	resume() {
 		let self = this;
 		return new Promise((resolve, reject) => {
-			if(!self._init) {
-				return reject(UNINITIALIZED_ERROR());
+			if(!this.isValid()) {
+				return reject(INVALID_ERROR());
 			}
 
 			self._state = State.CONNECTING;
@@ -101,8 +106,8 @@ class Torrent {
 	remove() {
 		let self = this;
 		return new Promise((resolve, reject) => {
-			if(!self._init) {
-				return reject(UNINITIALIZED_ERROR());
+			if(!this.isValid()) {
+				return reject(INVALID_ERROR());
 			}
 			self.stop().then(() => {
 				self._state = State.REMOVED;
@@ -119,8 +124,8 @@ class Torrent {
 	getStatus() {
 		let self = this;
 		return new Promise((resolve, reject) => {
-			if(!self._init) {
-				return reject(UNINITIALIZED_ERROR());
+			if(!this.isValid()) {
+				return reject(INVALID_ERROR());
 			}
 			resolve(torrents[self._hash].status);
 		});
