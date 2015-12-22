@@ -14,7 +14,8 @@ const torrents = {
 			eta: 192,
 			progress: 45,
 			downloaded: 2.04147e12
-		}
+		},
+		finalState: State.DOWNLOADING
 	}
 };
 
@@ -42,6 +43,9 @@ class Torrent {
 		// use this in promise
 		var self = this;
 
+		setTimeout(() => {
+			this._state = torrents[self._hash].finalState;
+		}, 1800);
 		return new Promise((resolve, reject) => {
 			let torrent = torrents[self._hash];
 
@@ -63,7 +67,8 @@ class Torrent {
 				title: torrent.title,
 				size: torrent.size
 			});
-		})
+		});
+
 	}
 	
 	pause() {
@@ -127,6 +132,10 @@ class Torrent {
 			if(!this.isValid()) {
 				return reject(INVALID_ERROR());
 			}
+			torrents[self._hash].status.uploadSpeed += (Math.random() * 2e5);
+			torrents[self._hash].status.uploadSpeed -= (Math.random() * 2e5);
+			torrents[self._hash].status.downloadSpeed += (Math.random() * 2e5);
+			torrents[self._hash].status.downloadSpeed -= (Math.random() * 2e5);
 			resolve(torrents[self._hash].status);
 		});
 	}

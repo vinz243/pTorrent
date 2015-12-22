@@ -7,8 +7,37 @@ import Avatar from 'material-ui/lib/avatar';
 import Colors from 'material-ui/lib/styles/colors';
 import LinearProgress from 'material-ui/lib/linear-progress';
 import FontIcon from 'material-ui/lib/font-icon';
-  
+
+import prettyBytes from 'pretty-bytes';
+
 const TorrentItem = React.createClass({
+   componentDidMount () {
+    console.log('did mount')
+    setInterval(() => {
+
+      let torrent = this.props.torrent;
+
+      torrent.getStatus().then((status) => {
+        this.setState({
+          torrent: torrent,
+          status: status
+        });
+      });
+    }, 1024);
+  },
+  getInitialState () {
+    console.log('initial state')
+    return {
+      status : {
+
+        uploadSpeed: 0,
+        downloadSpeed: 0,
+        eta: 0,
+        progress: 0,
+        downloaded: 0
+      }
+    };
+  },
   getIconFromState (state = this.props.torrent.getState()) {
 
     switch(state) {
@@ -34,7 +63,7 @@ const TorrentItem = React.createClass({
 
 	render () {
 
-
+    console.log(this.state);
 		return (
        <ListItem
          leftAvatar={
@@ -48,9 +77,12 @@ const TorrentItem = React.createClass({
           <div>{this.props.torrent.getTitle()}
             <div className={style.rateIndicators} >
                 {this.props.torrent.isDownloading() ?
-                  <span className={style.downloadRateIndicator} >5.6 Mb/s</span> : null}
+                  <span className={style.downloadRateIndicator}>
+                    {prettyBytes(this.state.status.downloadSpeed)}
+                  </span> : null}
                 
-                  <span className={style.uploadRateIndicator} ></span> : null
+                  <span className={style.uploadRateIndicator} >
+                    {prettyBytes(this.state.status.uploadSpeed)}</span>
             </div>
           </div>
         }
@@ -65,7 +97,7 @@ const TorrentItem = React.createClass({
             {this.props.torrent.isDownloading ?
                 <LinearProgress mode={
                   (this.getIconFromState() === 'cloud_queue') ? 'indeterminate': 'determinate'
-                } value={60} color={"#4CAF50"} />
+                } value={this.state.status.progress} color={"#4CAF50"} />
               : null
             }
            </p>
