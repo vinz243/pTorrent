@@ -23,8 +23,11 @@ export default Fluxxor.createStore({
 	},
 	onAddTorrent (payload) {
 		let hash = payload.hash;
-		client.addTorrent(hash).then((t) => {
-			this.torrents[hash] = t;
+		client.addTorrent(hash).then((torrent) => {
+			this.torrents[hash] = torrent;
+			torrent.on('change', () => {
+				this.emit('change');
+			});
 			this.emit('change');
 		}).catch(() => {
 			this.emit('change')

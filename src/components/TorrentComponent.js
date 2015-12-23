@@ -22,7 +22,7 @@ const TorrentItem = React.createClass({
           status: status
         });
       });
-    }, 1024);
+    }, 1000);
   },
   getInitialState () {
     return {

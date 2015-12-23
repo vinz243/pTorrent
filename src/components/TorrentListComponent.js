@@ -63,10 +63,9 @@ const TorrentList = React.createClass({
     this.setState({
       muiTheme: newMuiTheme
     });
-
-    setInterval(() => {
+    this.getFlux().store('TorrentStore').on('change', () => {
       this.forceUpdate();
-    }, 1500);
+    });
   },
   
   //pass down updated theme to children
