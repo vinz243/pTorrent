@@ -49,7 +49,8 @@ module.exports = {
       styles: srcPath + 'styles/',
       adapters: srcPath + 'adapters/',
       config: srcPath + 'config/' + process.env.REACT_WEBPACK_ENV,
-      utils: srcPath + 'utils/'
+      utils: srcPath + 'utils/',
+      adapter: srcPath + 'adapters/WebtorrentAdapter'
     }
   },
   plugins: [

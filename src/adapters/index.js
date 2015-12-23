@@ -1,5 +1,5 @@
 
-var Adapter = require('./MockupAdapter');
+var Adapter = require('/adapter');
 import consts from './TorrentStateConstants';
 
 

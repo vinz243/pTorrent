@@ -27,6 +27,9 @@ let config = _.merge({
   ]
 }, baseConfig);
 
+config.resolve.alias.adapter =
+  path.join(__dirname, '/../src') + '/adapters/WebtorrentAdapter';
+
 // Add needed loaders
 config.module.loaders.push({
   test: /\.(js|jsx)$/,
