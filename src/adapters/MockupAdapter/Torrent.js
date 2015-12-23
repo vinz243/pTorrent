@@ -1,7 +1,8 @@
 // import Observable from '../../observable';
 import State from '../TorrentStateConstants.js';
 import MainUtils from 'utils/main';
-
+import {EventEmitter} from 'events';
+import util from 'util';
 
 const torrents = {
 	'38D0F91A99C57D189416439CE377CCDCD92639D0': {
@@ -44,13 +45,15 @@ var INVALID_ERROR = () => {
 	return new TypeError('Torrent is invalid');
 }
 
-class Torrent {
+class Torrent extends EventEmitter {
 
 	constructor(hash) {
+		super();
 		this._init = false;
 		this._hash = hash;
 		this._state = State.UNINITIALIZED;
 	}
+
 	isValid() {
 		return this.isInitialized() && !this.isInvalid() && !this.isUnknown();
 	}
@@ -60,9 +63,6 @@ class Torrent {
 		// use this in promise
 		var self = this;
 
-		setTimeout(() => {
-			this._state = torrents[self._hash].finalState;
-		}, torrents[self._hash].finalStateTimeout);
 		return new Promise((resolve, reject) => {
 			let torrent = torrents[self._hash];
 
@@ -78,6 +78,16 @@ class Torrent {
 			self._init = true;
 			self._title = torrent.title;
 			self._state = State.LOADING;
+			
+			this.emit('change');
+			this.emit('initialized');
+
+			setTimeout(() => {
+				if(!this.isValid()) return;
+				this._state = torrents[self._hash].finalState;
+				this.emit('change');
+				this.emit('change:state');
+			}, torrents[self._hash].finalStateTimeout);
 
 			resolve({
 				hash: torrent.hash,
@@ -87,52 +97,69 @@ class Torrent {
 		});
 
 	}
-	
+
+	refreshState () {
+
+	}
+
 	pause() {
-		let self = this;
+		this.emit('pausing');
 		return new Promise((resolve, reject) => {
 
 			if(!this.isValid())
 				return reject(INVALID_ERROR());
 
-			self._state = State.PAUSED;
+			this._state = State.PAUSED;
+			this.emit('change');
+			this.emit('change:state');
+			this.emit('paused');
 			resolve()
 		});
 	}
 
 	stop() {
-		let self = this;
+		this.emit('stopping')
 		return new Promise((resolve, reject) => {
 
 			if(!this.isValid())
 				return reject(INVALID_ERROR());
 
-			self._state = State.STOPPED;
+			this._state = State.STOPPED;
+			this.emit('change');
+			this.emit('change:state');
+			this.emit('paused');
 			resolve();
 		});
 	}
 
 	resume() {
-		let self = this;
+		this.emit('resuming')
 		return new Promise((resolve, reject) => {
+
 			if(!this.isValid()) {
 				return reject(INVALID_ERROR());
 			}
 
-			self._state = State.CONNECTING;
+			this._state = State.CONNECTING;
+			this.emit('change');
+			this.emit('change:state');
+			this.emit('resumed');
 			resolve();
 
 		});
 	}
 
 	remove() {
-		let self = this;
+		this.emit('removing')
 		return new Promise((resolve, reject) => {
 			if(!this.isValid()) {
 				return reject(INVALID_ERROR());
 			}
-			self.stop().then(() => {
-				self._state = State.REMOVED;
+			this.stop().then(() => {
+				this._state = State.REMOVED;
+				this.emit('change');
+				this.emit('change:state');
+				this.emit('removed')
 				resolve();
 			});
 		});
@@ -172,5 +199,7 @@ class Torrent {
 		});
 	}
 }
+
 MainUtils.populateStateChecks(Torrent, State);
+
 export default Torrent;
