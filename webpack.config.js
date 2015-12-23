@@ -4,7 +4,7 @@ var path = require('path');
 var args = require('minimist')(process.argv.slice(2));
 
 // List of allowed environments
-var allowedEnvs = ['dev', 'dist', 'test'];
+var allowedEnvs = ['dev', 'dist', 'test', 'gui'];
 
 // Set the correct environment
 var env;
@@ -22,7 +22,8 @@ var configs = {
   base: require(path.join(__dirname, 'cfg/base')),
   dev: require(path.join(__dirname, 'cfg/dev')),
   dist: require(path.join(__dirname, 'cfg/dist')),
-  test: require(path.join(__dirname, 'cfg/test'))
+  test: require(path.join(__dirname, 'cfg/test')),
+  gui: require(path.join(__dirname, 'cfg/gui'))
 };
 
 /**
