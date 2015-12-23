@@ -1,5 +1,5 @@
 import Fluxxor from 'fluxxor';
-import {Client, Torrent} from 'adapters/MockupAdapter';
+import {Client} from 'adapters/MockupAdapter';
 
 const constants = {
 	ADD_TORRENT: 'ADD_TORRENT',
@@ -24,7 +24,7 @@ export default Fluxxor.createStore({
 	onAddTorrent (payload) {
 		let hash = payload.hash;
 		client.addTorrent(hash).then((t) => {
-			this.torrents[hash] = t;	
+			this.torrents[hash] = t;
 			this.emit('change');
 		}).catch(() => {
 			this.emit('change')

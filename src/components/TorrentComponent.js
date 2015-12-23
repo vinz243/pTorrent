@@ -12,7 +12,6 @@ import prettyBytes from 'pretty-bytes';
 
 const TorrentItem = React.createClass({
    componentDidMount () {
-    console.log('did mount')
     setInterval(() => {
 
       let torrent = this.props.torrent;
@@ -26,7 +25,6 @@ const TorrentItem = React.createClass({
     }, 1024);
   },
   getInitialState () {
-    console.log('initial state')
     return {
       status : {
 
@@ -63,7 +61,6 @@ const TorrentItem = React.createClass({
 
 	render () {
 
-    console.log(this.state);
 		return (
        <ListItem
          leftAvatar={

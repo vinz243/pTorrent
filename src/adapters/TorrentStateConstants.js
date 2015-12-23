@@ -1,6 +1,6 @@
 export default {
 	
-	// When a torrent has been initialized and loaded, 
+	// When a torrent has been initialized and loaded,
 	// And it is loading informations
 	// Typically in the case of a magnet
 	// Or after resuming torrents

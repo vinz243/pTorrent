@@ -13,14 +13,10 @@ var FluxMixin = Fluxxor.FluxMixin(React),
     StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 const downloading = (val) => {
-  console.log("value:", val);
   return val.isDownloading();
 }
 const seeding = (val) => {
   return val.isSeeding();
-}
-const done = (val) => {
-  return val.isDone();
 }
 const loading =(val) => {
   return val.isLoading();
@@ -29,7 +25,7 @@ const loading =(val) => {
 
 const TorrentList = React.createClass({
 
-  mixins: [FluxMixin, StoreWatchMixin("TorrentStore")],
+  mixins: [FluxMixin, StoreWatchMixin('TorrentStore')],
 
   contextTypes: {
     muiTheme: React.PropTypes.object
@@ -55,7 +51,7 @@ const TorrentList = React.createClass({
     //     userData: flux.store("UserStore").getData(),
     //     fooBarData: flux.store("FooBarStore").someMoreData()
     //   };
-    return flux.store("TorrentStore").getState();
+    return flux.store('TorrentStore').getState();
   },
 
   componentWillMount () {

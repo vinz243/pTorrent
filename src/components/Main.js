@@ -25,11 +25,13 @@ var stores = {
 
 var flux = new Fluxxor.Flux(stores, TorrentActions);
 
-flux.on("dispatch", function(type, payload) {
-  if (console && console.log) {
-    console.log("[Dispatch]", type, payload);
+
+flux.on('dispatch', function(type, payload) {
+  if (console && console.log) { // eslint-disable-line no-console
+    console.log('[Dispatch]', type, payload); // eslint-disable-line no-console
   }
 });
+
 
 flux.actions.addTorrent('6A20D919EF6203F8C0CC75D194674605A4B768F0');
 flux.actions.addTorrent('38D0F91A99C57D189416439CE377CCDCD92639D0');

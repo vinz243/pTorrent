@@ -1,9 +1,9 @@
 const populateStateCheck = (state, states, target, inverted, oriState) => {
 	if(state === 'VALID') return;
 	
-	let camelState = state.split("_").map((i) => {
+	let camelState = state.split('_').map((i) => {
 		return i[0].toUpperCase() + i.substring(1).toLowerCase();
-	}).join("");
+	}).join('');
 
 	target.prototype['is' + camelState] = function () {
 		if(inverted)
@@ -13,7 +13,6 @@ const populateStateCheck = (state, states, target, inverted, oriState) => {
 };
 
 export default {
-
 	populateStateChecks: (target, states) => {
 		for (let state in states) {
   		if (states.hasOwnProperty(state)) {
@@ -24,7 +23,5 @@ export default {
 
 	  	}
 		}
-	},
-
-
+	}
 }

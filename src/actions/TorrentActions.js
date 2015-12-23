@@ -10,6 +10,5 @@ const constants = {
 export default {
   addTorrent: function(hash) {
     this.dispatch(constants.ADD_TORRENT, {hash: hash});
-  },
-
+  }
 };

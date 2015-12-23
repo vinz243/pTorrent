@@ -2,7 +2,6 @@
 import State from '../TorrentStateConstants.js';
 import MainUtils from 'utils/main';
 import {EventEmitter} from 'events';
-import util from 'util';
 
 const torrents = {
 	'38D0F91A99C57D189416439CE377CCDCD92639D0': {
@@ -36,10 +35,6 @@ const torrents = {
 };
 
 var index = [];
-
-var UNINITIALIZED_ERROR = () => {
-	return new TypeError('Torrent hasn\'t been initialized')
-};
 
 var INVALID_ERROR = () => {
 	return new TypeError('Torrent is invalid');
@@ -187,10 +182,10 @@ class Torrent extends EventEmitter {
 		return this._hash;
 	}
 	getInfo() {
-		throw new TypeError("Class AbstractTorrent is abstract");
+		throw new TypeError('Not yet implemented');
 	}
 
-	static create(source, config) {
+	static create(source) {
 		return new Promise((resolve, reject) => {
 			if((typeof source !== 'string') || !torrents[source])
 				return reject(new TypeError('Torrent source is invalid: ' + source));

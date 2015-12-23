@@ -1,4 +1,4 @@
-import Torrent from './Torrent'; 
+import Torrent from './Torrent';
 // import Observable from '../../observable';
 
 
@@ -13,11 +13,11 @@ class MockupClient {
 	addTorrent(torrentData, torrentOptions) {
 		return new Promise((resolve, reject) => {
 			var torrent;
-			var p = Torrent.create(torrentData, torrentOptions).then((t) =>{
+			Torrent.create(torrentData, torrentOptions).then((t) =>{
 				torrent = t;
 			
 				return torrent.init();
-			}).then((hash) =>{
+			}).then(() => {
 	
 				this.torrents.push(torrent);
 				resolve(torrent);
@@ -48,8 +48,8 @@ class MockupClient {
 		throw new TypeError('Class AbstractClient is abstract');
 	}
 
-	setConfig(key, value){
-		throw new TypeError('Class AbstractClient is abstract');
+	setConfig(){
+		throw new TypeError('Not yet implemented');
 	}
 
 	static getClient() {
