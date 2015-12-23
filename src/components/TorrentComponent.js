@@ -94,7 +94,7 @@ const TorrentItem = React.createClass({
             {this.props.torrent.isDownloading ?
               <span className={style.etaIndicator} >2 min 5s</span> : null}
 
-            {this.props.torrent.isDownloading ?
+            {['SEEDING', 'DONE'].indexOf(this.props.torrent.getState()) ?
                 <LinearProgress mode={
                   (this.getIconFromState() === 'cloud_queue') ? 'indeterminate': 'determinate'
                 } value={this.state.status.progress} color={"#4CAF50"} />

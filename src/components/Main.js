@@ -32,6 +32,7 @@ flux.on("dispatch", function(type, payload) {
 });
 
 flux.actions.addTorrent('6A20D919EF6203F8C0CC75D194674605A4B768F0');
+flux.actions.addTorrent('38D0F91A99C57D189416439CE377CCDCD92639D0');
 
 class AppComponent extends React.Component {
   render() {

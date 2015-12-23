@@ -4,6 +4,20 @@ import MainUtils from 'utils/main';
 
 
 const torrents = {
+	'38D0F91A99C57D189416439CE377CCDCD92639D0': {
+		title: 'Ubuntu-14.04-desktop-x86.iso',
+		hash: '38D0F91A99C57D189416439CE377CCDCD92639D0',
+		size: 2.97383e12,
+		status: {
+			uploadSpeed: 7872812,
+			downloadSpeed: 0,
+			eta: 0,
+			progress: 100,
+			downloaded: 2.97383e12
+		},
+		finalState: State.SEEDING,
+		finalStateTimeout: 6700
+	},
 	'6A20D919EF6203F8C0CC75D194674605A4B768F0': {
 		hash: '6A20D919EF6203F8C0CC75D194674605A4B768F0',
 		title: 'Ubuntu-15.10-desktop-amd64.iso',
@@ -15,14 +29,17 @@ const torrents = {
 			progress: 45,
 			downloaded: 2.04147e12
 		},
-		finalState: State.DOWNLOADING
+		finalState: State.DOWNLOADING,
+		finalStateTimeout: 1800
 	}
 };
 
 var index = [];
+
 var UNINITIALIZED_ERROR = () => {
 	return new TypeError('Torrent hasn\'t been initialized')
 };
+
 var INVALID_ERROR = () => {
 	return new TypeError('Torrent is invalid');
 }
@@ -45,7 +62,7 @@ class Torrent {
 
 		setTimeout(() => {
 			this._state = torrents[self._hash].finalState;
-		}, 1800);
+		}, torrents[self._hash].finalStateTimeout);
 		return new Promise((resolve, reject) => {
 			let torrent = torrents[self._hash];
 

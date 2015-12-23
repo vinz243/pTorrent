@@ -13,6 +13,7 @@ var FluxMixin = Fluxxor.FluxMixin(React),
     StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 const downloading = (val) => {
+  console.log("value:", val);
   return val.isDownloading();
 }
 const seeding = (val) => {
@@ -21,8 +22,9 @@ const seeding = (val) => {
 const done = (val) => {
   return val.isDone();
 }
-
-
+const loading =(val) => {
+  return val.isLoading();
+}
 
 
 const TorrentList = React.createClass({
@@ -65,6 +67,10 @@ const TorrentList = React.createClass({
     this.setState({
       muiTheme: newMuiTheme
     });
+
+    setInterval(() => {
+      this.forceUpdate();
+    }, 1500);
   },
   
   //pass down updated theme to children
@@ -75,14 +81,27 @@ const TorrentList = React.createClass({
   },
 
   render () {
+    let torrents = Object.keys(this.state.torrents).map((hash) => {
+      return this.state.torrents[hash];
+    });
     return (
       <Tabs className={style.mainView} tabItemContainerStyle={{ backgroundColor: '#fff',
                                                                 color: '#000',
                                                                 boxShadow: '0px -1px #EEE inset'}}>
         <Tab label='All'>
           <List subheader="Downloading">
-            {Object.keys(this.state.torrents).map((hash) => {
-              return <TorrentItem torrent={this.state.torrents[hash]} />;
+            {torrents.filter(downloading).map((torrent) => {
+              return <TorrentItem torrent={torrent} />;
+            })}
+          </List>
+          <List subheader="Seeding">
+            {torrents.filter(seeding).map((torrent) => {
+              return <TorrentItem torrent={torrent} />;
+            })}
+          </List>
+          <List subheader="Loading">
+            {torrents.filter(loading).map((torrent) => {
+              return <TorrentItem torrent={torrent} />;
             })}
           </List>
         </Tab>
