@@ -2,39 +2,7 @@
 import State from '../TorrentStateConstants.js';
 import MainUtils from 'utils/main';
 import {EventEmitter} from 'events';
-
-const torrents = {
-	'38D0F91A99C57D189416439CE377CCDCD92639D0': {
-		title: 'Ubuntu-14.04-desktop-x86.iso',
-		hash: '38D0F91A99C57D189416439CE377CCDCD92639D0',
-		size: 2.97383e12,
-		status: {
-			uploadSpeed: 7872812,
-			downloadSpeed: 0,
-			eta: 0,
-			progress: 100,
-			downloaded: 2.97383e12
-		},
-		finalState: State.SEEDING,
-		finalStateTimeout: 6700
-	},
-	'6A20D919EF6203F8C0CC75D194674605A4B768F0': {
-		hash: '6A20D919EF6203F8C0CC75D194674605A4B768F0',
-		title: 'Ubuntu-15.10-desktop-amd64.iso',
-		size: 4.5366e12,
-		status: {
-			uploadSpeed: 4972800,
-			downloadSpeed: 28192128,
-			eta: 192,
-			progress: 45,
-			downloaded: 2.04147e12
-		},
-		finalState: State.DOWNLOADING,
-		finalStateTimeout: 1800
-	}
-};
-
-var index = [];
+import parseTorrent from 'parse-torrent';
 
 var INVALID_ERROR = () => {
 	return new TypeError('Torrent is invalid');
@@ -42,11 +10,17 @@ var INVALID_ERROR = () => {
 
 class Torrent extends EventEmitter {
 
-	constructor(hash) {
+	constructor(hash, source, config) {
+
 		super();
+		
 		this._init = false;
 		this._hash = hash;
+		this._source = source;
 		this._state = State.UNINITIALIZED;
+		this._torrent = undefined;
+		this._config = config;
+		console.log('constructor', this);
 	}
 
 	isValid() {
@@ -59,38 +33,85 @@ class Torrent extends EventEmitter {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			let torrent = torrents[self._hash];
-
-			if(!torrent){
+			console.log('init ', this);
+			if(!this._hash){
 				this._state = State.INVALID;
-				return reject(new TypeError('Torrent '+self._hash+' is undefined'));
+				return reject(INVALID_ERROR());
 			}
 
 			// Do not init() twice
 			if(this.isInitialized())
 				return reject(new TypeError('Torrent '+self._hash+' is already initialized'));
 
+			var parsed;
+			try {
+				parsed = parseTorrent(this._source);
+
+			} catch(err) {
+				return reject(err);
+			}
 			self._init = true;
-			self._title = torrent.title;
+			self._title = parsed.name || 'loading title...';
 			self._state = State.LOADING;
 			
 			this.emit('change');
+			this.emit('change:state');
+			this.emit('initializing');
+
+			this._torrent = this._config.client.add(this.source, (torr) => {});
+
+			this._state = State.LOADING;
+
+			this.emit('change');
+			this.emit('change:state');
 			this.emit('initialized');
 
-			setTimeout(() => {
-				if(!this.isValid()) return;
-				this._state = torrents[self._hash].finalState;
-				this.emit('change');
-				this.emit('change:state');
-			}, torrents[self._hash].finalStateTimeout);
+			this._torrent.on('download', (chunkSize) => {
+				if(!this.isDownloading()){
+					this._state = State.DOWNLOADING;
+					this.emit('change');
+					this.emit('change:state');
+					this.emit('downloading')
+				}
+				this.emit('download', chunkSize);
+			});
 
+			this._torrent.on('upload', (chunkSize) => {
+				this.emit('upload', chunkSize);
+			});
+
+			this._torrent.on('error', (err) => {
+				console.log('Error: ', err);
+				this.emit('error', err);
+			});
+
+			this.on('download', this._onDownload);
+			this.on('upload', this._onUpload);
 			resolve({
-				hash: torrent.hash,
-				title: torrent.title,
-				size: torrent.size
+				hash: this._hash,
+				title: this._name
 			});
 		});
 
+}
+
+_onDownload (chunkSize) {
+	let time = Date.now();
+	if(this._dLastTime) {
+			// Approx derivative of downloaded bytes to get speed
+			let deltaTime = time - this._dLastTime;
+			this._downloadSpeed = (chunkSize * 1000) / deltaTime; 
+		}
+		this._dLastTime = time;
+	}
+	_onUpload (chunkSize) {
+		let time = Date.now();
+		if(this._uLastTime) {
+			// Approx derivative of downloaded bytes to get speed
+			let deltaTime = time - this._uLastTime;
+			this._uploadSpeed = (chunkSize * 1000) / deltaTime; 
+		}
+		this._uLastTime = time;
 	}
 
 	refreshState () {
@@ -133,6 +154,7 @@ class Torrent extends EventEmitter {
 
 			if(!this.isValid()) {
 				return reject(INVALID_ERROR());
+
 			}
 
 			this._state = State.CONNECTING;
@@ -171,211 +193,14 @@ class Torrent extends EventEmitter {
 			if(!this.isValid()) {
 				return reject(INVALID_ERROR());
 			}
-			torrents[self._hash].status.uploadSpeed += (Math.random() * 2e5);
-			torrents[self._hash].status.uploadSpeed -= (Math.random() * 2e5);
-			torrents[self._hash].status.downloadSpeed += (Math.random() * 2e5);
-			torrents[self._hash].status.downloadSpeed -= (Math.random() * 2e5);
-			resolve(torrents[self._hash].status);
-		});
-	}
-	getHash() {
-		return this._hash;
-	}
-	getInfo() {
-		throw new TypeError('Not yet implemented');
-	}
-
-	static create(source) {
-		return new Promise((resolve, reject) => {
-			if((typeof source !== 'string') || !torrents[source])
-				return reject(new TypeError('Torrent source is invalid: ' + source));
-			index.push(source);
-			resolve(new Torrent(source));
-		});
-	}
-}
-
-MainUtils.populateStateChecks(Torrent, State);
-
-export default Torrent;
-// import Observable from '../../observable';
-import State from '../TorrentStateConstants.js';
-import MainUtils from 'utils/main';
-import {EventEmitter} from 'events';
-
-const torrents = {
-	'38D0F91A99C57D189416439CE377CCDCD92639D0': {
-		title: 'Ubuntu-14.04-desktop-x86.iso',
-		hash: '38D0F91A99C57D189416439CE377CCDCD92639D0',
-		size: 2.97383e12,
-		status: {
-			uploadSpeed: 7872812,
-			downloadSpeed: 0,
-			eta: 0,
-			progress: 100,
-			downloaded: 2.97383e12
-		},
-		finalState: State.SEEDING,
-		finalStateTimeout: 6700
-	},
-	'6A20D919EF6203F8C0CC75D194674605A4B768F0': {
-		hash: '6A20D919EF6203F8C0CC75D194674605A4B768F0',
-		title: 'Ubuntu-15.10-desktop-amd64.iso',
-		size: 4.5366e12,
-		status: {
-			uploadSpeed: 4972800,
-			downloadSpeed: 28192128,
-			eta: 192,
-			progress: 45,
-			downloaded: 2.04147e12
-		},
-		finalState: State.DOWNLOADING,
-		finalStateTimeout: 1800
-	}
-};
-
-var index = [];
-
-var INVALID_ERROR = () => {
-	return new TypeError('Torrent is invalid');
-}
-
-class Torrent extends EventEmitter {
-
-	constructor(hash) {
-		super();
-		this._init = false;
-		this._hash = hash;
-		this._state = State.UNINITIALIZED;
-	}
-
-	isValid() {
-		return this.isInitialized() && !this.isInvalid() && !this.isUnknown();
-	}
-
-	init() {
-
-		// use this in promise
-		var self = this;
-
-		return new Promise((resolve, reject) => {
-			let torrent = torrents[self._hash];
-
-			if(!torrent){
-				this._state = State.INVALID;
-				return reject(new TypeError('Torrent '+self._hash+' is undefined'));
-			}
-
-			// Do not init() twice
-			if(this.isInitialized())
-				return reject(new TypeError('Torrent '+self._hash+' is already initialized'));
-
-			self._init = true;
-			self._title = torrent.title;
-			self._state = State.LOADING;
-			
-			this.emit('change');
-			this.emit('initialized');
-
-			setTimeout(() => {
-				if(!this.isValid()) return;
-				this._state = torrents[self._hash].finalState;
-				this.emit('change');
-				this.emit('change:state');
-			}, torrents[self._hash].finalStateTimeout);
 
 			resolve({
-				hash: torrent.hash,
-				title: torrent.title,
-				size: torrent.size
+				uploadSpeed: this._uploadSpeed || 0,
+				downloadSpeed: this._downloadSpeed || 0,
+				downloaded: this._torrent.downloaded || 0,
+				progress: this.progress * 100 || 0,
+				eta: (1 - this.progress) / this.downloadSpeed || 0
 			});
-		});
-
-	}
-
-	refreshState () {
-
-	}
-
-	pause() {
-		this.emit('pausing');
-		return new Promise((resolve, reject) => {
-
-			if(!this.isValid())
-				return reject(INVALID_ERROR());
-
-			this._state = State.PAUSED;
-			this.emit('change');
-			this.emit('change:state');
-			this.emit('paused');
-			resolve()
-		});
-	}
-
-	stop() {
-		this.emit('stopping')
-		return new Promise((resolve, reject) => {
-
-			if(!this.isValid())
-				return reject(INVALID_ERROR());
-
-			this._state = State.STOPPED;
-			this.emit('change');
-			this.emit('change:state');
-			this.emit('paused');
-			resolve();
-		});
-	}
-
-	resume() {
-		this.emit('resuming')
-		return new Promise((resolve, reject) => {
-
-			if(!this.isValid()) {
-				return reject(INVALID_ERROR());
-			}
-
-			this._state = State.CONNECTING;
-			this.emit('change');
-			this.emit('change:state');
-			this.emit('resumed');
-			resolve();
-
-		});
-	}
-
-	remove() {
-		this.emit('removing')
-		return new Promise((resolve, reject) => {
-			if(!this.isValid()) {
-				return reject(INVALID_ERROR());
-			}
-			this.stop().then(() => {
-				this._state = State.REMOVED;
-				this.emit('change');
-				this.emit('change:state');
-				this.emit('removed')
-				resolve();
-			});
-		});
-	}
-	getTitle() {
-		return this._title;
-	}
-	getState() {
-		return this._state;
-	}
-	getStatus() {
-		let self = this;
-		return new Promise((resolve, reject) => {
-			if(!this.isValid()) {
-				return reject(INVALID_ERROR());
-			}
-			torrents[self._hash].status.uploadSpeed += (Math.random() * 2e5);
-			torrents[self._hash].status.uploadSpeed -= (Math.random() * 2e5);
-			torrents[self._hash].status.downloadSpeed += (Math.random() * 2e5);
-			torrents[self._hash].status.downloadSpeed -= (Math.random() * 2e5);
-			resolve(torrents[self._hash].status);
 		});
 	}
 	getHash() {
@@ -385,12 +210,18 @@ class Torrent extends EventEmitter {
 		throw new TypeError('Not yet implemented');
 	}
 
-	static create(source) {
+	static create(source, config) {
 		return new Promise((resolve, reject) => {
-			if((typeof source !== 'string') || !torrents[source])
-				return reject(new TypeError('Torrent source is invalid: ' + source));
-			index.push(source);
-			resolve(new Torrent(source));
+			console.log('create', source, config);
+
+			try {
+				let parsed = parseTorrent(source);
+				let trt = new Torrent(parsed.infoHash, source, config);
+				resolve(trt);
+			} catch (err) {
+				console.log(err);
+				return reject(err);
+			}
 		});
 	}
 }
@@ -398,3 +229,4 @@ class Torrent extends EventEmitter {
 MainUtils.populateStateChecks(Torrent, State);
 
 export default Torrent;
+

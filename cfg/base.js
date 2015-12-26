@@ -13,6 +13,9 @@ module.exports = {
     filename: 'app.js',
     publicPath: publicPath
   },
+  node: {
+    fs: "empty"
+  },
   devServer: {
     contentBase: './src/',
     historyApiFallback: true,

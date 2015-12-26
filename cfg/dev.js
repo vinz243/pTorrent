@@ -16,8 +16,8 @@ let config = _.merge({
     './src/components/run'
   ],
   cache: true,
-  // devtool: 'eval',
-  devtool: 'source-map',
+  devtool: 'eval',
+  // devtool: 'cheap-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),

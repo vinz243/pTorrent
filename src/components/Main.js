@@ -33,8 +33,7 @@ flux.on('dispatch', function(type, payload) {
 });
 
 
-flux.actions.addTorrent('6A20D919EF6203F8C0CC75D194674605A4B768F0');
-flux.actions.addTorrent('38D0F91A99C57D189416439CE377CCDCD92639D0');
+flux.actions.addTorrent('magnet:?xt=urn:btih:09e37f73e51f403bb543517f0d0a2e1283d61eb0&dn=archlinux-2015.12.01-dual.iso&tr=udp://tracker.archlinux.org:6969&tr=http://tracker.archlinux.org:6969/announce');
 
 class AppComponent extends React.Component {
   render() {

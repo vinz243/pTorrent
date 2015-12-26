@@ -1,5 +1,9 @@
 import Fluxxor from 'fluxxor';
-import {Client} from 'adapters/MockupAdapter';
+// import {Client} from 'adapter';
+import Adapter from 'adapter';
+
+const Client = Adapter.Client;
+console.log('adapter: ', Adapter);
 
 const constants = {
 	ADD_TORRENT: 'ADD_TORRENT',
@@ -29,7 +33,8 @@ export default Fluxxor.createStore({
 				this.emit('change');
 			});
 			this.emit('change');
-		}).catch(() => {
+		}).catch((err) => {
+			console.log(err);
 			this.emit('change')
 		});
 
