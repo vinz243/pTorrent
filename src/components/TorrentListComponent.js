@@ -21,6 +21,9 @@ const seeding = (val) => {
 const loading =(val) => {
   return val.isLoading();
 }
+const connecting = (val) => {
+  return val.isConnecting();
+}
 
 
 const TorrentList = React.createClass({
@@ -96,6 +99,11 @@ const TorrentList = React.createClass({
           </List>
           <List subheader="Loading">
             {torrents.filter(loading).map((torrent) => {
+              return <TorrentItem torrent={torrent} />;
+            })}
+          </List>
+          <List subheader="Connecting">
+            {torrents.filter(connecting).map((torrent) => {
               return <TorrentItem torrent={torrent} />;
             })}
           </List>

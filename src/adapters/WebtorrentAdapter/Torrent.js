@@ -13,6 +13,8 @@ class Torrent extends EventEmitter {
 	constructor(hash, source, config) {
 
 		super();
+
+		EventEmitter.call(this);
 		
 		this._init = false;
 		this._hash = hash;
@@ -20,7 +22,6 @@ class Torrent extends EventEmitter {
 		this._state = State.UNINITIALIZED;
 		this._torrent = undefined;
 		this._config = config;
-		console.log('constructor', this);
 	}
 
 	isValid() {
@@ -33,7 +34,6 @@ class Torrent extends EventEmitter {
 		var self = this;
 
 		return new Promise((resolve, reject) => {
-			console.log('init ', this);
 			if(!this._hash){
 				this._state = State.INVALID;
 				return reject(INVALID_ERROR());
@@ -58,7 +58,13 @@ class Torrent extends EventEmitter {
 			this.emit('change:state');
 			this.emit('initializing');
 
-			this._torrent = this._config.client.add(this.source, (torr) => {});
+			this._torrent = this._config.client.add(this._source, (torr) => {
+				console.log('TORRENT ADDED');
+				this._state = State.CONNECTING;
+				this.emit('change');
+				this.emit('change:state');
+				this.emit('connecting');
+			});
 
 			this._state = State.LOADING;
 
