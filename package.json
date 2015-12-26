@@ -18,12 +18,14 @@
     "clean": "rimraf dist/*",
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
-    "release:patch": "npm version patch && npm publish && git push --follow-tags"
+    "release:patch": "npm version patch && npm publish && git push --follow-tags",
+    "install": "browserify -s WebTorrent -e node_modules/webtorrent/ > node_modules/webtorrent/webtorrent.debug.js"
   },
   "repository": "",
   "keywords": [],
   "author": "vinz243",
   "devDependencies": {
+    "browserify": "*",
     "babel-core": "^6.0.0",
     "babel-eslint": "^5.0.0-beta4",
     "babel-loader": "^6.0.0",
