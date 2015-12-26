@@ -28,7 +28,7 @@ let config = _.merge({
 }, baseConfig);
 
 config.resolve.alias.adapter =
-  path.join(__dirname, '/../src') + '/adapters/WebtorrentAdapter';
+  path.join(__dirname, '/../src') + '/adapters/MockupAdapter';
 
 // Add needed loaders
 config.module.loaders.push({
