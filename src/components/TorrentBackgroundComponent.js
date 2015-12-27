@@ -22,12 +22,12 @@ class TorrentBackground extends React.Component {
 		//let downCols = this.processData(rateData.download, "#00acc1");
 		// let upCols = this.processData(rateData.upload);
 		let max = Math.max.apply(Math, rateData.download);
-
+		let i = 0;
 		return (
 
  	 		<div className={style.topContainer}>
  	 			{rateData.download.map(function(value) {
-					return (<div className={style.chartColumn} style={{
+					return (<div key={i++} className={style.chartColumn} style={{
 											backgroundColor: '#00acc1',
 											height: (value / max) * 80 + '%'
 										}}> </div>)

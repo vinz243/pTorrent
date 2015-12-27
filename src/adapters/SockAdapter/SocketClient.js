@@ -29,13 +29,10 @@ socket.on('connect', () => {
 })
 class FProxy {
   constructor (target, handler) {
-    console.log('Hey constructor')
-    socket.on('methods', (methods) => {
-      methods.forEach((method) => {
-        target.prototype[method] = handler.get(target, method);
-      });
+    let methods = ['status', 'addTorrent'];
+    methods.forEach((method) => {
+      target.prototype[method] = handler.get(target, method);
     });
-    socket.emit('get methods');
   }
 }
 

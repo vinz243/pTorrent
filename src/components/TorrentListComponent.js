@@ -82,6 +82,7 @@ const TorrentList = React.createClass({
     let torrents = Object.keys(this.state.torrents).map((hash) => {
       return this.state.torrents[hash];
     });
+    let key = 0;
     return (
       <Tabs className={style.mainView} tabItemContainerStyle={{ backgroundColor: '#fff',
                                                                 color: '#000',
@@ -89,22 +90,22 @@ const TorrentList = React.createClass({
         <Tab label='All'>
           <List subheader="Downloading">
             {torrents.filter(downloading).map((torrent) => {
-              return <TorrentItem torrent={torrent} />;
+              return <TorrentItem key={key++} torrent={torrent} />;
             })}
           </List>
           <List subheader="Seeding">
             {torrents.filter(seeding).map((torrent) => {
-              return <TorrentItem torrent={torrent} />;
+              return <TorrentItem key={key++} torrent={torrent} />;
             })}
           </List>
           <List subheader="Loading">
             {torrents.filter(loading).map((torrent) => {
-              return <TorrentItem torrent={torrent} />;
+              return <TorrentItem key={key++} torrent={torrent} />;
             })}
           </List>
           <List subheader="Connecting">
             {torrents.filter(connecting).map((torrent) => {
-              return <TorrentItem torrent={torrent} />;
+              return <TorrentItem key={key++} torrent={torrent} />;
             })}
           </List>
         </Tab>

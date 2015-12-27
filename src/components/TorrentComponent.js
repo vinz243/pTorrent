@@ -12,11 +12,15 @@ import prettyBytes from 'pretty-bytes';
 
 const TorrentItem = React.createClass({
    componentDidMount () {
-    setInterval(() => {
+    let intervalId = setInterval(() => {
 
       let torrent = this.props.torrent;
 
       torrent.getStatus().then((status) => {
+        
+        if (!this.isMounted()) 
+          return clearInterval(intervalId);
+        
         this.setState({
           torrent: torrent,
           status: status
@@ -84,7 +88,7 @@ const TorrentItem = React.createClass({
           </div>
         }
          secondaryText={
-           <p>
+           <div>
             <span style={{color: Colors.darkBlack}}>
             {this.props.torrent.getState()[0] + this.props.torrent.getState().substring(1).toLowerCase()
             }</span>
@@ -97,9 +101,9 @@ const TorrentItem = React.createClass({
                 } value={this.state.status.progress} color={"#4CAF50"} />
               : null
             }
-           </p>
+           </div>
          }
-         secondaryTextLines={2} />
+         secondaryTextLines={3} />
       
 		)
 	}

@@ -66,10 +66,10 @@ module.exports = (io) => {
       let callbackId = payload.callbackId;
       if(!callbackId) return console.err('Cliend was called, but no callbacc specified');
       
-      client[payload.method](opts.args).then(function(res) {
-        socket.emit('callback_done_'+opts.callbackId, res);
+      client[payload.method](payload.args).then(function(res) {
+        socket.emit('callback_done_' + payload.callbackId, res);
       }).catch(function (err) {
-        socket.emit('callback_err_'+opts.callbackId, err);
+        socket.emit('callback_err_' + payload.callbackId, err);
       })
     });
 });
