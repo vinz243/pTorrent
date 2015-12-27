@@ -9,7 +9,7 @@ module.exports = (io) => {
       }
     }
   }
-  var EventEmitter = require('event-emitter');
+  var EventEmitter = require('events').EventEmitter;
   class Client extends EventEmitter {
     constructor () {
       super();

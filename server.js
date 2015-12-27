@@ -10,7 +10,7 @@ var devServer = new WebpackDevServer(webpack(config), config.devServer);
 var io = require('socket.io')(devServer.listeningApp, {path: '/client'});
 var server = require('./server/server.js')(io);
 
-devServer.listen(config.port, process.env.IP || 'localhost', function(err) {
+devServer.listen(config.port, process.env.IP || '127.0.0.1', function(err) {
   if (err) {
     console.log(err);
   }

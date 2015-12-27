@@ -1,5 +1,5 @@
 import socketio from 'socket.io-client';
-import EventEmitter from 'event-emitter';
+import {EventEmitter} from 'events';
 
 var socket = socketio({path: '/client'});
 
