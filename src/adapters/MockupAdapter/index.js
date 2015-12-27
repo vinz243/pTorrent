@@ -4,8 +4,8 @@ import peer from './Peer';
 import torrent from './Torrent';
 import consts from '../TorrentStateConstants'
 
-export var Client = client;
-export var Tracker = tracker;
-export var Peer = peer;
-export var Torrent = torrent;
-export var State = consts;
+export default {
+    Client: client,
+    Torrent: torrent,
+    State: consts
+};

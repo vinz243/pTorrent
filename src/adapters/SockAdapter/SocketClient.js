@@ -1,7 +1,8 @@
 import socketio from 'socket.io-client';
 import EventEmitter from 'event-emitter';
 
-const io = socketio(4200);
+var socket = socketio({path: '/client'});
+
 var gid = () => {
   return Math.floor(Math.random() * 1e9).toString(16);
 }
@@ -12,9 +13,9 @@ class SocketClient {
   // Registers an event
   listen(event, torrentId, callback) {
     let id = gid();
-    io.on('event_' + id, callback || torrentId$);
+    socket.on('event_' + id, callback || torrentId);
     
-    return io.emit('listen', {
+    return socket.emit('listen', {
       event: event,
       scope: callback ? 'torrent' : 'client',
       id: id,
@@ -22,23 +23,38 @@ class SocketClient {
     });
   }
 }
+socket.on('connect', () => {
+  console.log('connect');
+  socket.emit('handcheck');
+})
+class FProxy {
+  constructor (target, handler) {
+    console.log('Hey constructor')
+    socket.on('methods', (methods) => {
+      methods.forEach((method) => {
+        target.prototype[method] = handler.get(target, method);
+      });
+    });
+    socket.emit('get methods');
+  }
+}
 
-const ProxiedSocketClient = new Proxy(SocketClient.prototype, {
+const ProxiedSocketClient = new FProxy(SocketClient, {
   get: (receiver, prop) => {
     return (opts) => {
       let callbackId = gid();
       return new Promise((resolve, reject) => {
 
         // Create listeners to fullfill promise
-        io.on('callback_done_' + callbackId, (data) => {
+        socket.on('callback_done_' + callbackId, (data) => {
           resolve(data);
         });
-        io.on('callback_err_' + callbackId, (err) => {
+        socket.on('callback_err_' + callbackId, (err) => {
           reject(err);
         });
 
         // Call the server
-        io.emit('client call', {
+        socket.emit('client call', {
           callbackId: callbackId,
           opts: opts,
           method: prop
@@ -48,4 +64,4 @@ const ProxiedSocketClient = new Proxy(SocketClient.prototype, {
   }
 });
 
-export default ProxiedSocketClient;
+export default SocketClient;

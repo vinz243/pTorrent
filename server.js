@@ -5,8 +5,12 @@ var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
 var open = require('open');
 
-new WebpackDevServer(webpack(config), config.devServer)
-.listen(config.port, 'localhost', function(err) {
+
+var devServer = new WebpackDevServer(webpack(config), config.devServer);
+var io = require('socket.io')(devServer.listeningApp, {path: '/client'});
+var server = require('./server/server.js')(io);
+
+devServer.listen(config.port, process.env.IP || 'localhost', function(err) {
   if (err) {
     console.log(err);
   }

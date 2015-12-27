@@ -11,7 +11,7 @@ let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = _.merge({
   entry: [
-    'webpack-dev-server/client?http://127.0.0.1:8000',
+    'webpack-dev-server/client?http://'+ process.env.IP ||'127.0.0.1' +  process.env.PORT || '8000',
     'webpack/hot/only-dev-server',
     './src/components/run'
   ],
