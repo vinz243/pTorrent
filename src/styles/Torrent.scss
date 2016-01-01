@@ -2,7 +2,7 @@
 // @import "./config";
 
 .rateIndicators {
-	float: right;	
+	float: right;
 	.downloadRateIndicator {
 		font-weight: bold;
 		&::before {
@@ -20,4 +20,5 @@
 
 .etaIndicator {
 	float: right;
+	margin-bottom: 10px;
 }

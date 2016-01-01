@@ -56,6 +56,12 @@ class Torrent extends EventEmitter {
             }
             this.emit('download');
           });
+          SocketClient.getInstance().listen('done', this._hash, () => {
+          	this._state = State.DONE;
+          	this.emit('done');
+          	this.emit('change');
+          	this.emit('change:state');
+          });
         });
         resolve(this);
       });
@@ -142,9 +148,9 @@ class Torrent extends EventEmitter {
 				return reject(INVALID_ERROR());
 			}
 			SocketClient.getInstance().connect().then(() => {
-        return SocketClient.getInstance()
-          .getTorrentStatus({torrentId: this._hash});
-      }).then(resolve).catch(reject);
+       		return SocketClient.getInstance()
+         	 .getTorrentStatus({torrentId: this._hash});
+     	}).then(resolve).catch(reject);
 		});
 	}
 	getHash() {

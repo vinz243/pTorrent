@@ -49,6 +49,9 @@ class Client extends EventEmitter {
           torrent.on('download', _.throttle((chunkSize) => {
             this.emit('torrent:' + torrent.infoHash + ':download', chunkSize);
           }, 400));
+          torrent.once('done', () => {
+            this.emit('torrent:' + torrent.infoHash + ':done');
+          });
           
         } catch(err) {
           console.log(pe.render(err));
@@ -63,7 +66,7 @@ class Client extends EventEmitter {
           return resolve({
             downloaded: torrent.downloaded,
             received: torrent.received,
-            eta: torrent.remaining,
+            eta: torrent.timeRemaining,
             progress: Math.round(torrent.progress * 1000) / 10,
             downloadSpeed: torrent.downloadSpeed(),
             uploadSpeed: torrent.uploadSpeed()

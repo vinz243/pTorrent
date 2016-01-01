@@ -21,7 +21,7 @@ import SocketClient from 'adapter/../SockAdapter/SocketClient';
 
 import Debug from 'debug';
 
-Debug.enable('*');
+// Debug.enable('*');
 
 // var socketClient = new SocketClient();
 

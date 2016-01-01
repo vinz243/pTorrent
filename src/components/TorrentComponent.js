@@ -11,7 +11,20 @@ import FontIcon from 'material-ui/lib/font-icon';
 import prettyBytes from 'pretty-bytes';
 
 const TorrentItem = React.createClass({
-   componentDidMount () {
+  makeETA(ms) {
+    let days = Math.round(ms / 86400000);
+    ms -= days * 86400000;
+    let hours = ms > 0 ? Math.round(ms / 3600000) : 0;
+    ms -= hours * 3600000;
+    let minutes = ms > 0 ? Math.round(ms / 60000) : 0;
+    ms -= minutes * 60000;
+    let seconds = ms > 0 ? Math.round(ms / 1000) : 0;
+    console.log(days, hours, minutes, seconds);
+
+    return (days > 0 ? days + 'd ': '') + (hours > 0 ? hours + 'h ' : '')
+      + (minutes > 0 ? minutes + 'm ' : '')+ (seconds > 0 ? seconds + 's' : '');
+  },
+  componentDidMount () {
     let intervalId = setInterval(() => {
 
       let torrent = this.props.torrent;
@@ -26,7 +39,7 @@ const TorrentItem = React.createClass({
           status: status
         });
       });
-    }, 1000);
+    }, 200);
   },
   getInitialState () {
     return {
@@ -93,7 +106,7 @@ const TorrentItem = React.createClass({
             {this.props.torrent.getState()[0] + this.props.torrent.getState().substring(1).toLowerCase()
             }</span>
             {this.props.torrent.isDownloading ?
-              <span className={style.etaIndicator} >2 min 5s</span> : null}
+              <span className={style.etaIndicator} >{this.makeETA(this.state.status.eta)}</span> : null}
 
             {['SEEDING', 'DONE'].indexOf(this.props.torrent.getState()) ?
                 <LinearProgress mode={

@@ -61,6 +61,7 @@ const ProxiedSocketClient = new FProxy(SocketClient, {
 
         // Create listeners to fullfill promise
         this._socket.on('callback_done_' + callbackId, (data) => {
+          console.log('done', data);
           resolve(data);
         });
         this._socket.on('callback_err_' + callbackId, (err) => {
