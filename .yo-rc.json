@@ -1,0 +1,7 @@
+{
+  "generator-react-webpack": {
+    "appName": "pTorrent",
+    "style": "scss",
+    "postcss": true
+  }
+}
