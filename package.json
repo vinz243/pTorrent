@@ -70,6 +70,7 @@
   "dependencies": {
     "classnames": "^2.2.1",
     "core-js": "^2.0.0",
+    "debug": "^2.2.0",
     "fluxxor": "^1.7.3",
     "humanize": "0.0.9",
     "lodash": "^3.10.1",
@@ -77,6 +78,7 @@
     "normalize.css": "^3.0.3",
     "parse-torrent": "^5.7.0",
     "pretty-bytes": "*",
+    "pretty-error": "^2.0.0",
     "react": "^0.14.0",
     "react-addons-test-utils": "^0.14.0",
     "react-dom": "^0.14.0",

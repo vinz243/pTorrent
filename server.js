@@ -14,7 +14,7 @@ devServer.listen(config.port, process.env.IP || '127.0.0.1', function(err) {
   if (err) {
     console.log(err);
   }
-  console.log('Listening at localhost:' + config.port);
+  console.log('Listening at ' + (process.env.IP || '127.0.0.1') + ':'+ config.port);
   console.log('Opening your system browser...');
-  open('http://localhost:' + config.port + '/webpack-dev-server/');
+  open('http://' + (process.env.IP || '127.0.0.1') + ':' + config.port + '/webpack-dev-server/');
 });

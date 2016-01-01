@@ -1,4 +1,5 @@
 import Torrent from './Torrent';
+import SocketClient from './SocketClient';
 // import WebTorrent from 'webtorrent/webtorrent.debug';
 // import Observable from '../../observable';
 

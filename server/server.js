@@ -1,47 +1,14 @@
 // esversion: 6
 'use strict';
+
+const Client = require('./client');
+var PrettyError = require('pretty-error');
+var pe = new PrettyError();
+
 module.exports = (io) => {
-  
-  var removeFunctions = (data) => {
-    for(let key in data) {
-      if(typeof data[key] === 'function' || key[0] === '_') {
-        delete data[key];
-      }
-    }
-  }
-  var EventEmitter = require('events').EventEmitter;
-  class Client extends EventEmitter {
-    constructor () {
-      super();
-      EventEmitter.call(this);
-      
-    }
-    status () {
-      
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          return resolve('online');
-        }, 250);
-        setTimeout(() => {
-          this.emit('client:status');
-        }, 1250);
-      });
-    }
-    addTorrent (opts) {
-      return new Promise((resolve, reject) => {
-        let torrent = client.add(opts.source, (torrent) => {
-          this.emit('torrent:' + torrent.infoHash + ':loaded', removeFunctions(torrent));
-        });
-        
-        torrent.on('download', (chunkSize) => {
-          this.emit('torrent:' + torrent.infoHash + ':download', chunkSize);
-        })
-      });
-    }
-  };
+   
     
   io.on('connection', function(socket) {
-    console.log('Client connected...');
     let client = new Client();
     socket.on('get methods', () => {
       socket.emit('methods', Object.keys(Client.prototype).filter((key) => {
@@ -64,11 +31,12 @@ module.exports = (io) => {
     });
     socket.on('client call', function(payload) {
       let callbackId = payload.callbackId;
-      if(!callbackId) return console.err('Cliend was called, but no callbacc specified');
-      
+      if(!callbackId) return console.err('Cliend was called, but no callback specified');
       client[payload.method](payload.args).then(function(res) {
         socket.emit('callback_done_' + payload.callbackId, res);
       }).catch(function (err) {
+        console.log('error occured for ' + payload.method);
+        console.log(pe.render(err));
         socket.emit('callback_err_' + payload.callbackId, err);
       })
     });

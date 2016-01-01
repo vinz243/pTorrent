@@ -1,6 +1,7 @@
 import Fluxxor from 'fluxxor';
 // import {Client} from 'adapter';
 import Adapter from 'adapter';
+import parseTorrent from 'parse-torrent';
 
 const Client = Adapter.Client;
 console.log('adapter: ', Adapter);
@@ -26,8 +27,10 @@ export default Fluxxor.createStore({
 		);
 	},
 	onAddTorrent (payload) {
-		let hash = payload.hash;
-		client.addTorrent(hash).then((torrent) => {
+		console.log('payload', payload);
+		let hash = parseTorrent(payload.hash).infoHash;
+
+		client.addTorrent(payload.hash).then((torrent) => {
 			this.torrents[hash] = torrent;
 			torrent.on('change', () => {
 				this.emit('change');
